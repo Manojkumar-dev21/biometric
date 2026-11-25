@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Biometric Security · 24CYU29C · Interactive Course</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{
+ --paper:#ECE8DF;--paper2:#E3DED2;--ink:#16150F;--ink2:#55524A;--rule:#CBC4B4;
+ --sig:#D9481F;--screen:#121210;--scr2:#1C1C19;--sline:#2E2D28;--stext:#E9E5DA;--smuted:#8F8B80;
+ --hot:#FF6A3D;--cool:#7FB2FF;--ok:#9BD67A;
+ --serif:'Instrument Serif',Georgia,serif;--sans:'IBM Plex Sans',system-ui,sans-serif;--mono:'IBM Plex Mono',ui-monospace,monospace}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.6}
+a{color:inherit}
+/* top bar */
+.top{position:sticky;top:0;z-index:20;background:rgba(236,232,223,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--rule)}
+.top .in{max-width:1240px;margin:0 auto;padding:10px 28px;display:flex;align-items:center;gap:24px}
+.code{font:500 12px var(--mono);letter-spacing:.08em}
+.code i{display:inline-block;width:8px;height:8px;background:var(--sig);margin-right:8px;vertical-align:1px}
+.top nav{margin-left:auto;display:flex;gap:2px;flex-wrap:wrap}
+.top nav a{font:12px var(--mono);text-decoration:none;padding:6px 10px;color:var(--ink2);border-radius:2px}
+.top nav a:hover,.top nav a.on{background:var(--ink);color:var(--paper)}
+.prog{position:absolute;left:0;bottom:-1px;height:2px;background:var(--sig);width:0}
+/* layout */
+.wrap{max-width:1240px;margin:0 auto;padding:0 28px}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;padding:72px 0 56px;border-bottom:1px solid var(--rule);align-items:center}
+.kick{font:12px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--sig)}
+h1{font:400 clamp(56px,9vw,128px)/0.9 var(--serif);margin:14px 0 22px;letter-spacing:-.02em}
+h1 em{font-style:italic;color:var(--ink2)}
+.lede{font-size:20px;max-width:560px;color:var(--ink2)}
+.facts{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--ink);margin-top:32px}
+.facts div{padding:12px 0;font:12px var(--mono);color:var(--ink2);border-right:1px solid var(--rule);padding-left:14px}
+.facts div:first-child{padding-left:0}.facts div:last-child{border-right:0}
+.facts b{display:block;font:400 34px var(--serif);color:var(--ink)}
+.objs{margin-top:28px;font-size:15px;color:var(--ink2);padding-left:18px}
+.objs li{margin:4px 0}
+/* units */
+.unit{padding:84px 0 40px;border-bottom:1px solid var(--rule)}
+.uhead{display:grid;grid-template-columns:200px 1fr;gap:32px;margin-bottom:36px}
+.unum{font:400 150px/0.8 var(--serif);color:var(--sig)}
+.uhead h2{font:400 clamp(38px,5vw,64px)/1 var(--serif);margin:6px 0 10px}
+.meta{font:12px var(--mono);color:var(--ink2);letter-spacing:.06em;text-transform:uppercase}
+.topics{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+.topics span{font:12px var(--mono);border:1px solid var(--rule);padding:3px 8px;color:var(--ink2);background:var(--paper2)}
+.topic{display:grid;grid-template-columns:200px 1fr;gap:32px;margin:56px 0}
+.tlabel{font:12px var(--mono);color:var(--ink2);text-transform:uppercase;letter-spacing:.08em;border-top:2px solid var(--ink);padding-top:10px;align-self:start}
+.tlabel b{display:block;font:400 28px/1.05 var(--serif);text-transform:none;letter-spacing:0;color:var(--ink);margin-top:6px}
+.tbody h3{font:400 34px/1.1 var(--serif);margin:0 0 6px}
+.tbody .sub{font-size:19px;color:var(--ink2);margin:0 0 18px;max-width:760px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin:18px 0}
+.note{border-left:2px solid var(--sig);padding:2px 0 2px 16px;font-size:16px;color:var(--ink2)}
+.note b{color:var(--ink)}
+dl.terms{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;margin:14px 0;font-size:16px}
+dl.terms dt{font:500 13px var(--mono);color:var(--ink);padding-top:2px}
+dl.terms dd{margin:0;color:var(--ink2)}
+/* figure screen */
+.fig{background:var(--screen);color:var(--stext);margin:22px 0 8px;border:1px solid #000}
+.fbar{display:flex;align-items:center;gap:14px;padding:9px 14px;border-bottom:1px solid var(--sline);font:11px var(--mono);color:var(--smuted);letter-spacing:.08em;text-transform:uppercase}
+.fbar b{color:var(--hot);font-weight:500}
+.fbar .led{width:7px;height:7px;border-radius:50%;background:var(--ok);margin-left:auto;animation:blink 2s steps(1) infinite}
+@keyframes blink{50%{opacity:.25}}
+.fbody{display:grid;grid-template-columns:1fr 300px;min-height:360px}
+.fbody.full{grid-template-columns:1fr}
+.stage{position:relative;display:grid;place-items:center;padding:18px;border-right:1px solid var(--sline);overflow:hidden}
+.full .stage{border-right:0}
+.ctrl{padding:16px;display:flex;flex-direction:column;gap:14px;font:12px var(--mono);color:var(--smuted)}
+.ctrl h4{margin:0;font:500 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--stext)}
+.seg{display:flex;flex-wrap:wrap;border:1px solid var(--sline)}
+.seg button{flex:1;background:none;border:0;border-right:1px solid var(--sline);color:var(--smuted);font:11px var(--mono);padding:8px 6px;cursor:pointer;text-transform:uppercase;letter-spacing:.05em;min-width:60px}
+.seg button:last-child{border-right:0}
+.seg button:hover{color:var(--stext)}
+.seg button.on{background:var(--stext);color:var(--screen)}
+.btn{background:none;border:1px solid var(--sline);color:var(--stext);font:11px var(--mono);padding:8px 10px;cursor:pointer;text-transform:uppercase;letter-spacing:.06em}
+.btn:hover{border-color:var(--hot);color:var(--hot)}
+.btn.pri{background:var(--hot);border-color:var(--hot);color:var(--screen)}
+label.rg{display:flex;flex-direction:column;gap:4px}
+label.rg span{display:flex;justify-content:space-between}
+label.rg span b{color:var(--stext);font-weight:500}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:2px;background:var(--sline);outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;background:var(--hot);border:0;cursor:pointer}
+input[type=range]::-moz-range-thumb{width:14px;height:14px;background:var(--hot);border:0;border-radius:0;cursor:pointer}
+.read{border-top:1px solid var(--sline);padding-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.read div{font:10px var(--mono);text-transform:uppercase;letter-spacing:.06em}
+.read b{display:block;font:400 28px var(--serif);color:var(--stext);letter-spacing:0;text-transform:none}
+.verdict{font:500 13px var(--mono);padding:8px 10px;border:1px solid var(--sline);text-align:center;letter-spacing:.1em}
+.verdict.acc{color:var(--ok);border-color:var(--ok)}
+.verdict.rej{color:var(--hot);border-color:var(--hot)}
+.cap{font:12px var(--mono);color:var(--ink2);margin:0 0 6px}
+.hint{font:11px var(--mono);color:var(--smuted);line-height:1.5}
+canvas,svg.vis{display:block;max-width:100%;height:auto}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font:11px var(--mono);color:var(--smuted)}
+.legend i{display:inline-block;width:10px;height:10px;margin-right:6px;vertical-align:-1px}
+/* tables */
+table.t{border-collapse:collapse;width:100%;font-size:15px;margin:14px 0}
+table.t th{text-align:left;font:500 11px var(--mono);text-transform:uppercase;letter-spacing:.08em;border-bottom:2px solid var(--ink);padding:8px 10px 8px 0}
+table.t td{border-bottom:1px solid var(--rule);padding:9px 10px 9px 0;vertical-align:top;color:var(--ink2)}
+table.t td:first-child{color:var(--ink);font-weight:500}
+/* quiz */
+.qz{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:0;border-top:2px solid var(--ink)}
+.q{padding:18px 18px 18px 0;border-bottom:1px solid var(--rule)}
+.q p{margin:0 0 10px;font-weight:500}
+.q button{display:block;width:100%;text-align:left;background:none;border:1px solid var(--rule);padding:8px 12px;margin:5px 0;font:15px var(--sans);cursor:pointer;color:var(--ink)}
+.q button:hover{border-color:var(--ink)}
+.q button.right{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.q button.right::after{content:" — correct";font:12px var(--mono)}
+.q button.wrong{border-color:var(--sig);color:var(--sig);text-decoration:line-through}
+footer{padding:48px 0 80px;font:12px var(--mono);color:var(--ink2)}
+/* reveal */
+.rv{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+.rv.in{opacity:1;transform:none}
+@media (max-width:900px){
+ .hero,.uhead,.topic{grid-template-columns:1fr;gap:16px}
+ .unum{font-size:96px}
+ .fbody{grid-template-columns:1fr}.stage{border-right:0;border-bottom:1px solid var(--sline)}
+ .cols{grid-template-columns:1fr}
+ .top nav{display:none}
+ .facts{grid-template-columns:repeat(2,1fr)}
+}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}.fbar .led{animation:none}}
+</style>
+</head>
+<body>
+<div class="top"><div class="in">
+<span class="code"><i></i>24CYU29C · BIOMETRIC SECURITY</span>
+<nav id="nav"><a href="#u1">I · Intro</a><a href="#u2">II · Fingerprint</a><a href="#u3">III · Face &amp; Hand</a><a href="#u4">IV · Multimodal</a><a href="#u5">V · Authentication</a><a href="#quiz">Quiz</a></nav>
+</div><div class="prog" id="prog"></div></div>
+
+<div class="wrap">
+<header class="hero">
+<div>
+<p class="kick">Elective-IV · Semester VI · II B.Sc CS with Cyber Security</p>
+<h1>Biometric<br><em>Security</em></h1>
+<p class="lede">An interactive course companion. Every topic in the syllabus has a working instrument: generate a fingerprint and pull its minutiae, unwrap an iris into a code, match a face, move a threshold and watch the errors trade off.</p>
+<div class="facts"><div><b>3</b>Credits</div><div><b>6</b>Hours / week</div><div><b>25</b>CIA</div><div><b>75</b>External</div></div>
+<ul class="objs">
+<li>Understand fingerprint, iris, face and speech recognition technologies</li>
+<li>Learn the design principles of biometric systems and their trade-offs</li>
+<li>Recognise the privacy and security implications of biometric identification</li>
+<li>Evaluate biometric systems realistically</li>
+</ul>
+</div>
+<div class="fig rv">
+<div class="fbar"><b>FIG 0</b> Live minutiae extraction<span class="led"></span></div>
+<div class="fbody full"><div class="stage"><canvas id="heroFp" width="420" height="420"></canvas></div></div>
+</div>
+</header>
+
+<!-- ================= UNIT I ================= -->
+<section class="unit" id="u1">
+<div class="uhead rv"><div class="unum">01</div><div>
+<p class="meta">Unit I · CO1 · 14 hours</p>
+<h2>Introduction to Biometrics</h2>
+<p class="sub" style="font-size:19px;color:var(--ink2);max-width:760px">What biometrics are, how a system enrols and recognises people, which traits work best, and why privacy policy matters.</p>
+<div class="topics"><span>Introduction &amp; background</span><span>Biometric technologies</span><span>Passive biometrics</span><span>Active biometrics</span><span>Biometric systems</span><span>Enrollment</span><span>Templates</span><span>Algorithm</span><span>Verification</span><span>Applications</span><span>Characteristics</span><span>Authentication technologies</span><span>Need for strong authentication</span><span>Privacy &amp; policy</span></div>
+</div></div>
+
+<div class="topic rv"><div class="tlabel">1.1<b>Background &amp; technologies</b></div><div class="tbody">
+<h3>Recognising people by what they are</h3>
+<p class="sub">A biometric is a measurable physical or behavioural characteristic that can identify a person automatically. It is the “something you are” factor, alongside “something you know” (password) and “something you have” (token).</p>
+<div class="cols">
+<div><p class="cap">PHYSIOLOGICAL</p><p>Fingerprint, face, iris, retina, hand geometry, palm vein, DNA. Body structure, usually stable over time.</p></div>
+<div><p class="cap">BEHAVIOURAL</p><p>Voice, signature, keystroke rhythm, gait. How a person acts, so it varies more with mood, health and age.</p></div>
+</div>
+<div class="cols">
+<div class="note"><b>Active biometrics</b> need the user to cooperate: press a finger on a sensor, look into an iris camera, speak a passphrase.</div>
+<div class="note"><b>Passive biometrics</b> are captured without any action: a face in a CCTV frame, gait from a distance, voice during a normal call.</div>
+</div>
+</div></div>
+
+<div class="topic rv"><div class="tlabel">1.2<b>Biometric system</b></div><div class="tbody">
+<h3>Enrollment, templates, verification</h3>
+<p class="sub">Every system has the same skeleton: a sensor captures the trait, an algorithm extracts features into a compact template, and a matcher compares new samples against stored templates.</p>
+<div class="fig">
+<div class="fbar"><b>FIG 1.1</b> System flow · choose a mode<span class="led"></span></div>
+<div class="fbody"><div class="stage"><svg class="vis" id="flowSvg" viewBox="0 0 640 300" width="640" height="300"></svg></div>
+<div class="ctrl"><h4>Mode</h4><div class="seg" id="flowMode"><button data-m="enrol" class="on">Enrol</button><button data-m="verify">Verify 1:1</button><button data-m="identify">Identify 1:N</button></div>
+<p class="hint" id="flowTxt"></p><button class="btn pri" id="flowRun">Run sample</button></div></div>
+</div>
+<dl class="terms"><dt>Enrollment</dt><dd>First capture; quality-checked and stored as a reference template.</dd><dt>Template</dt><dd>Compact feature set, not the raw image (e.g. minutiae list, iris code, face embedding).</dd><dt>Verification</dt><dd>1:1 — “Am I who I claim to be?” Compare with one claimed identity.</dd><dt>Identification</dt><dd>1:N — “Who is this?” Search the whole database.</dd></dl>
+</div></div>
+
+<div class="topic rv"><div class="tlabel">1.3<b>Characteristics</b></div><div class="tbody">
+<h3>Which trait is the right one?</h3>
+<p class="sub">No trait is perfect. Seven properties decide where each one fits. Compare two traits on the radar.</p>
+<div class="fig">
+<div class="fbar"><b>FIG 1.2</b> Trait comparison radar · after Jain, Ross &amp; Prabhakar (2004)<span class="led"></span></div>
+<div class="fbody"><div class="stage"><svg class="vis" id="radar" viewBox="0 0 440 400" width="440" height="400"></svg></div>
+<div class="ctrl"><h4>Trait A <span style="color:var(--hot)">■</span></h4><div class="seg" id="radA"></div><h4>Trait B <span style="color:var(--cool)">■</span></h4><div class="seg" id="radB"></div>
+<p class="hint">H = high, M = medium, L = low. For circumvention, high means easy to fool, so lower is better there.</p></div></div>
+</div>
+<table class="t"><tr><th>Property</th><th>Question it answers</th></tr>
+<tr><td>Universality</td><td>Does everyone have it?</td></tr><tr><td>Uniqueness</td><td>Is it different for every person?</td></tr><tr><td>Permanence</td><td>Does it stay the same over time?</td></tr><tr><td>Collectability</td><td>Can it be measured easily?</td></tr><tr><td>Performance</td><td>Is matching accurate and fast?</td></tr><tr><td>Acceptability</td><td>Will people agree to use it?</td></tr><tr><td>Circumvention</td><td>How easily can it be faked?</td></tr></table>
+</div></div>
+
+<div class="topic rv"><div class="tlabel">1.4<b>Iris recognition</b></div><div class="tbody">
+<h3>From eye image to IrisCode</h3>
+<p class="sub">Iris texture is formed randomly before birth and stays stable for life. Daugman’s method locates the iris, “unwraps” it into a rectangle (rubber-sheet model) so pupil size does not matter, then encodes texture as bits.</p>
+<div class="fig">
+<div class="fbar"><b>FIG 1.3</b> Iris segmentation, normalisation and encoding<span class="led"></span></div>
+<div class="fbody"><div class="stage" style="gap:14px"><canvas id="irisC" width="300" height="300"></canvas><canvas id="irisU" width="560" height="70"></canvas><canvas id="irisB" width="560" height="56"></canvas></div>
+<div class="ctrl">
+<label class="rg"><span>Pupil dilation <b id="pupV"></b></span><input type="range" id="pup" min="20" max="55" value="32"></label>
+<h4>Compare with</h4><div class="seg" id="irisCmp"><button data-c="same" class="on">Same eye</button><button data-c="other">Other eye</button></div>
+<div class="read"><div><b id="hdV">—</b>Hamming dist.</div><div><b id="irisDec">—</b>Decision</div></div>
+<p class="hint">Change the pupil size: the unwrapped strip barely changes, so the same eye still matches. Typical threshold ≈ 0.32; unrelated irises sit near 0.5.</p></div></div>
+</div>
+</div></div>
+
+<div class="topic rv"><div class="tlabel">1.5<b>Strong authentication &amp; privacy</b></div><div class="tbody">
+<h3>Why biometrics, and what can go wrong</h3>
+<div class="cols">
+<div><p class="cap">NEED FOR STRONG AUTHENTICATION</p><p>Passwords are reused, shared and phished. Biometrics bind an action to a real person and cannot be forgotten. Combined with another factor they resist most account-takeover attacks.</p></div>
+<div><p class="cap">PRIVACY AND POLICY</p><p>A biometric cannot be changed if leaked. Systems need consent, purpose limitation, template protection (encryption, cancelable biometrics) and minimal retention. India’s Aadhaar and the 2017 Puttaswamy privacy judgment are key local examples.</p></div>
+</div>
+<table class="t"><tr><th>Application</th><th>Trait</th><th>Mode</th></tr>
+<tr><td>Aadhaar eKYC</td><td>Fingerprint, iris, face</td><td>Verification</td></tr><tr><td>Phone unlock</td><td>Fingerprint, face</td><td>Verification</td></tr><tr><td>Forensics (AFIS)</td><td>Fingerprint</td><td>Identification</td></tr><tr><td>DigiYatra airport boarding</td><td>Face</td><td>Verification</td></tr><tr><td>Office attendance</td><td>Fingerprint, hand, face</td><td>Verification</td></tr></table>
+</div></div>
+
+<div class="topic rv uq"><div class="tlabel">Check<b>Unit I quiz</b></div><div class="tbody">
+<h3>Test yourself on Unit I</h3><p class="meta" id="qs_u1">Score 0 / 5</p>
+<div class="qz" data-quiz="u1"></div></div></div>
+</section>
+
+<!-- ================= UNIT II ================= -->
+<section class="unit" id="u2">
+<div class="uhead rv"><div class="unum">02</div><div>
+<p class="meta">Unit II · CO2 · 14 hours</p>
+<h2>Fingerprint Technology</h2>
+<p style="font-size:19px;color:var(--ink2);max-width:760px">From the history of ridge patterns to sensors, enhancement, feature extraction, classification and matching.</p>
+<div class="topics"><span>History of pattern recognition</span><span>General description</span><span>Feature processing</span><span>RF imaging sensors</span><span>Quality assessment</span><span>Enhancement &amp; modeling</span><span>Feature extraction</span><span>Classification</span><span>Matching</span></div>
+</div></div>
+
+<div class="topic rv"><div class="tlabel">2.1<b>History &amp; description</b></div><div class="tbody">
+<h3>Ridges, valleys and three families</h3>
+<p class="sub">Herschel used handprints on contracts in 1850s India; Galton showed prints are unique and permanent; the Henry system, developed in Bengal with Azizul Haque and Hem Chandra Bose, organised them for police records. Today’s AFIS systems still use the same vocabulary.</p>
+<dl class="terms"><dt>Ridge / valley</dt><dd>Raised skin lines and the gaps between them.</dd><dt>Core</dt><dd>Centre of the innermost loop or whorl.</dd><dt>Delta</dt><dd>Triangular meeting point of three ridge flows.</dd><dt>Minutiae</dt><dd>Local ridge events: ridge ending and bifurcation. The basis of matching.</dd></dl>
+</div></div>
+
+<div class="topic rv"><div class="tlabel">2.2<b>Processing pipeline</b></div><div class="tbody">
+<h3>Generate a print, then process it</h3>
+<p class="sub">Pick a pattern class, then step through the pipeline. Each stage is computed live from a ridge-orientation model, exactly the way enhancement algorithms reason about prints.</p>
+<div class="fig">
+<div class="fbar"><b>FIG 2.1</b> Fingerprint processing · live<span class="led"></span></div>
+<div class="fbody"><div class="stage"><canvas id="fpC" width="400" height="400"></canvas></div>
+<div class="ctrl">
+<h4>Pattern class</h4><div class="seg" id="fpType"><button data-t="loop" class="on">Loop</button><button data-t="whorl">Whorl</button><button data-t="arch">Arch</button></div>
+<h4>Stage</h4><div class="seg" id="fpStage" style="flex-direction:column"><button data-s="0" class="on">1 · Raw capture</button><button data-s="1">2 · Enhanced (Gabor)</button><button data-s="2">3 · Binarised</button><button data-s="3">4 · Thinned skeleton</button><button data-s="4">5 · Minutiae</button></div>
+<label class="rg"><span>Sensor quality <b id="fpQv"></b></span><input type="range" id="fpQ" min="0" max="100" value="55"></label>
+<div class="read"><div><b id="fpNfiq">—</b>Quality (NFIQ-style)</div><div><b id="fpMin">—</b>Minutiae</div></div>
+<button class="btn" id="fpNew">New finger</button>
+<p class="hint" id="fpHint"></p></div></div>
+</div>
+<div class="cols">
+<div><p class="cap">ENHANCEMENT &amp; MODELING</p><p>Estimate the orientation field and ridge frequency in each block, then apply oriented Gabor filters that strengthen ridges along their direction and remove noise.</p></div>
+<div><p class="cap">FEATURE EXTRACTION</p><p>Binarise, thin ridges to one pixel, then scan with the crossing-number method: 1 neighbour transition = ridge ending, 3 = bifurcation.</p></div>
+</div>
+</div></div>
+
+<div class="topic rv"><div class="tlabel">2.3<b>Sensors &amp; quality</b></div><div class="tbody">
+<h3>How the print is captured</h3>
+<table class="t"><tr><th>Sensor</th><th>Principle</th><th>Notes</th></tr>
+<tr><td>Optical</td><td>Frustrated total internal reflection on a prism</td><td>Cheap, durable; can be fooled by latent prints</td></tr>
+<tr><td>Capacitive</td><td>Ridges and valleys change capacitance on a silicon grid</td><td>Common in phones; sensitive to dry skin</td></tr>
+<tr><td>RF imaging</td><td>Low-power RF field reads the live layer beneath the skin surface</td><td>Works with dirty or worn fingers; harder to spoof</td></tr>
+<tr><td>Ultrasonic</td><td>Sound echoes map ridges in 3D</td><td>Works through glass and moisture</td></tr></table>
+<p class="note"><b>Quality assessment</b> (e.g. NIST NFIQ) scores clarity, contrast and ridge continuity before enrolment. Low-quality captures are rejected and retaken, which reduces failure-to-enrol and false rejects later.</p>
+</div></div>
+
+<div class="topic rv"><div class="tlabel">2.4<b>Classification &amp; matching</b></div><div class="tbody">
+<h3>Align, pair, score</h3>
+<p class="sub">Classification (arch, loop, whorl) narrows a 1:N search. Matching then aligns two minutiae sets and counts pairs that agree in position and angle.</p>
+<div class="fig">
+<div class="fbar"><b>FIG 2.2</b> Minutiae matching<span class="led"></span></div>
+<div class="fbody"><div class="stage"><canvas id="mtC" width="620" height="320"></canvas></div>
+<div class="ctrl"><h4>Probe</h4><div class="seg" id="mtMode"><button data-m="gen" class="on">Same finger</button><button data-m="imp">Impostor</button></div>
+<label class="rg"><span>Rotation <b id="mtRv"></b></span><input type="range" id="mtR" min="-30" max="30" value="12"></label>
+<button class="btn pri" id="mtGo">Align &amp; match</button>
+<div class="read"><div><b id="mtPairs">—</b>Paired</div><div><b id="mtScore">—</b>Score</div></div>
+<div class="verdict" id="mtV">READY</div></div></div>
+</div>
+</div></div>
+
+<div class="topic rv uq"><div class="tlabel">Check<b>Unit II quiz</b></div><div class="tbody">
+<h3>Test yourself on Unit II</h3><p class="meta" id="qs_u2">Score 0 / 5</p>
+<div class="qz" data-quiz="u2"></div></div></div>
+</section>
+
+<!-- ================= UNIT III ================= -->
+<section class="unit" id="u3">
+<div class="uhead rv"><div class="unum">03</div><div>
+<p class="meta">Unit III · CO3 · 16 hours</p>
+<h2>Face Recognition &amp; Hand Geometry</h2>
+<p style="font-size:19px;color:var(--ink2);max-width:760px">Neural networks and correspondence maps for faces; scanning, feature extraction and adaptive classifiers for hands; visual feature extraction, pattern classification and fusion.</p>
+<div class="topics"><span>Introduction to face recognition</span><span>Neural networks</span><span>Correspondence maps</span><span>Hand geometry</span><span>Scanning</span><span>Feature extraction</span><span>Adaptive classifiers</span><span>Visual feature extraction</span><span>Pattern classification</span><span>Types of algorithm</span><span>Biometric fusion</span></div>
+</div></div>
+
+<div class="topic rv"><div class="tlabel">3.1<b>Face recognition</b></div><div class="tbody">
+<h3>Detect, find landmarks, compare</h3>
+<p class="sub">A face system detects the face, locates landmarks, turns geometry and texture into a feature vector, then measures distance to enrolled people. Shape the probe face with the sliders, or add pose and lighting noise.</p>
+<div class="fig">
+<div class="fbar"><b>FIG 3.1</b> Face matching against a 4-person gallery<span class="led"></span></div>
+<div class="fbody"><div class="stage" style="grid-template-columns:auto 1fr;gap:18px;align-items:center"><svg class="vis" id="faceSvg" viewBox="0 0 260 320" width="260" height="320"></svg><div id="gallery" style="display:grid;grid-template-columns:1fr 1fr;gap:10px"></div></div>
+<div class="ctrl">
+<h4>Load probe</h4><div class="seg" id="faceLoad"></div>
+<label class="rg"><span>Eye spacing <b id="fv0"></b></span><input type="range" class="fr" data-i="0" min="0" max="100"></label>
+<label class="rg"><span>Nose length <b id="fv1"></b></span><input type="range" class="fr" data-i="1" min="0" max="100"></label>
+<label class="rg"><span>Mouth width <b id="fv2"></b></span><input type="range" class="fr" data-i="2" min="0" max="100"></label>
+<label class="rg"><span>Jaw width <b id="fv3"></b></span><input type="range" class="fr" data-i="3" min="0" max="100"></label>
+<button class="btn" id="faceNoise">Add pose / lighting noise</button>
+<div class="verdict" id="faceV">—</div></div></div>
+</div>
+<table class="t"><tr><th>Approach</th><th>How it works</th></tr>
+<tr><td>Eigenfaces (PCA)</td><td>Represents each face as weights on the main directions of variation across the training set</td></tr>
+<tr><td>Fisherfaces (LDA)</td><td>Chooses directions that separate different people while ignoring within-person changes</td></tr>
+<tr><td>Correspondence maps</td><td>Matches landmark points and their local features between two images, then scores the geometric fit (e.g. elastic graph matching)</td></tr>
+<tr><td>Neural networks</td><td>CNNs learn an embedding where the same person’s photos are close together (FaceNet, ArcFace)</td></tr></table>
+</div></div>
+
+<div class="topic rv"><div class="tlabel">3.2<b>Hand geometry</b></div><div class="tbody">
+<h3>Scanning and measuring the hand</h3>
+<p class="sub">A camera captures the top and side of a hand placed against guide pegs. The system measures finger lengths and widths, palm width and thickness, then compares those numbers with the enrolled template.</p>
+<div class="fig">
+<div class="fbar"><b>FIG 3.2</b> Hand geometry feature extraction<span class="led"></span></div>
+<div class="fbody"><div class="stage"><svg class="vis" id="handSvg" viewBox="0 0 360 380" width="360" height="380"></svg></div>
+<div class="ctrl">
+<label class="rg"><span>Index length <b id="hv0"></b></span><input type="range" class="hr" data-i="0" min="60" max="110" value="88"></label>
+<label class="rg"><span>Middle length <b id="hv1"></b></span><input type="range" class="hr" data-i="1" min="70" max="125" value="100"></label>
+<label class="rg"><span>Ring length <b id="hv2"></b></span><input type="range" class="hr" data-i="2" min="60" max="115" value="92"></label>
+<label class="rg"><span>Palm width <b id="hv3"></b></span><input type="range" class="hr" data-i="3" min="120" max="170" value="145"></label>
+<button class="btn" id="handAdapt">Adaptive update</button>
+<div class="read"><div><b id="handD">—</b>Distance</div><div><b id="handDec">—</b>Decision</div></div>
+<p class="hint">Adaptive classifier: after a successful match the template moves slightly toward the new sample, so slow changes (weight, age) don’t cause rejections.</p></div></div>
+</div>
+</div></div>
+
+<div class="topic rv"><div class="tlabel">3.3<b>Visual features &amp; fusion</b></div><div class="tbody">
+<h3>Feature extraction, classifiers, fusion</h3>
+<div class="cols">
+<div><p class="cap">VISUAL FEATURE EXTRACTION</p><p>Edges, contours, texture (LBP, Gabor), keypoints (SIFT/ORB) and learned CNN features turn pixels into numbers a classifier can use.</p></div>
+<div><p class="cap">TYPES OF ALGORITHM</p><p>Nearest-neighbour and template matching, statistical classifiers (Bayes, LDA), SVMs, and neural networks.</p></div>
+</div>
+<p class="note"><b>Biometric fusion</b> combines evidence from several traits, samples or algorithms. It is covered fully in Unit IV.</p>
+</div></div>
+
+<div class="topic rv uq"><div class="tlabel">Check<b>Unit III quiz</b></div><div class="tbody">
+<h3>Test yourself on Unit III</h3><p class="meta" id="qs_u3">Score 0 / 5</p>
+<div class="qz" data-quiz="u3"></div></div></div>
+</section>
+
+<!-- ================= UNIT IV ================= -->
+<section class="unit" id="u4">
+<div class="uhead rv"><div class="unum">04</div><div>
+<p class="meta">Unit IV · CO4</p>
+<h2>Multimodal Biometrics &amp; Performance Evaluation</h2>
+<p style="font-size:19px;color:var(--ink2);max-width:760px">Voice scan, combining traits, and the statistics used to judge any biometric system.</p>
+<div class="topics"><span>Voice scan</span><span>Physiological biometrics</span><span>Behavioural biometrics</span><span>Multimodal system</span><span>Integration strategies</span><span>Architecture</span><span>Level of fusion</span><span>Combination strategy</span><span>Training &amp; adaptability</span><span>Examples</span><span>Performance evaluation</span><span>FAR · FRR · FTE · EER</span><span>Memory requirement &amp; allocation</span></div>
+</div></div>
+
+<div class="topic rv"><div class="tlabel">4.1<b>Voice scan</b></div><div class="tbody">
+<h3>Speaker recognition</h3>
+<p class="sub">Voice mixes physiology (vocal tract shape) and behaviour (accent, rhythm). Systems extract MFCC features from short frames and model each speaker, classically with a Gaussian Mixture Model.</p>
+<div class="fig">
+<div class="fbar"><b>FIG 4.1</b> Waveform and spectrogram<span class="led"></span></div>
+<div class="fbody"><div class="stage" style="gap:10px"><canvas id="vWave" width="600" height="120"></canvas><canvas id="vSpec" width="600" height="160"></canvas></div>
+<div class="ctrl"><h4>Speaker</h4><div class="seg" id="vSpk"><button data-p="0" class="on">Speaker A</button><button data-p="1">Speaker B</button></div>
+<button class="btn pri" id="vPlay">Speak passphrase</button>
+<div class="read"><div><b id="vPitch">—</b>Pitch (Hz)</div><div><b id="vF">—</b>Formant F1</div></div>
+<p class="hint">Simulated signal. Different speakers show different pitch and formant bands in the spectrogram.</p></div></div>
+</div>
+</div></div>
+
+<div class="topic rv"><div class="tlabel">4.2<b>Multimodal fusion</b></div><div class="tbody">
+<h3>Integration strategies and levels of fusion</h3>
+<p class="sub">Combining traits lowers error rates, covers people who can’t enrol with one trait, and makes spoofing harder. Fusion can happen at any stage of the pipeline.</p>
+<div class="fig">
+<div class="fbar"><b>FIG 4.2</b> Fusion level &amp; score combination<span class="led"></span></div>
+<div class="fbody"><div class="stage"><svg class="vis" id="fusSvg" viewBox="0 0 620 300" width="620" height="300"></svg></div>
+<div class="ctrl">
+<h4>Fusion level</h4><div class="seg" id="fusLvl" style="flex-direction:column"><button data-l="0">Sensor</button><button data-l="1">Feature</button><button data-l="2" class="on">Score</button><button data-l="3">Rank</button><button data-l="4">Decision</button></div>
+<label class="rg"><span>Face score <b id="s0v"></b></span><input type="range" class="sr" data-i="0" min="0" max="100" value="58"></label>
+<label class="rg"><span>Finger score <b id="s1v"></b></span><input type="range" class="sr" data-i="1" min="0" max="100" value="81"></label>
+<label class="rg"><span>Voice score <b id="s2v"></b></span><input type="range" class="sr" data-i="2" min="0" max="100" value="42"></label>
+<div class="seg" id="fusRule"><button data-r="sum" class="on">Sum</button><button data-r="w">Weighted</button><button data-r="max">Max</button><button data-r="min">Min</button></div>
+<div class="read"><div><b id="fusS">—</b>Fused (thr 60)</div><div><b id="fusD">—</b>Decision</div></div></div></div>
+</div>
+<table class="t"><tr><th>Concept</th><th>Meaning</th></tr>
+<tr><td>Architecture</td><td>Serial (cascade: stop early if confident), parallel (all traits at once), hierarchical (tree of classifiers)</td></tr>
+<tr><td>Combination strategy</td><td>Fixed rules (sum, product, max, min, majority vote) or trained combiners (weighted sum, SVM, neural net)</td></tr>
+<tr><td>Training &amp; adaptability</td><td>Learn per-user weights and thresholds; update as data grows</td></tr>
+<tr><td>Examples</td><td>Aadhaar (finger + iris + face), US OBIM border control (face + finger), banking apps (face + voice)</td></tr></table>
+</div></div>
+
+<div class="topic rv"><div class="tlabel">4.3<b>Performance evaluation</b></div><div class="tbody">
+<h3>FAR, FRR, FTE and EER</h3>
+<p class="sub">Genuine and impostor comparisons produce two score distributions. Wherever you place the threshold, one error grows as the other shrinks.</p>
+<div class="fig">
+<div class="fbar"><b>FIG 4.3</b> Score distributions, threshold and ROC<span class="led"></span></div>
+<div class="fbody"><div class="stage" style="gap:12px"><canvas id="distC" width="620" height="240"></canvas><canvas id="rocC" width="620" height="150"></canvas></div>
+<div class="ctrl">
+<label class="rg"><span>Threshold <b id="thrV"></b></span><input type="range" id="thr" min="0" max="100" value="50"></label>
+<label class="rg"><span>System quality (separation) <b id="sepV"></b></span><input type="range" id="sep" min="10" max="60" value="30"></label>
+<div class="read"><div><b id="farV" style="color:var(--hot)">—</b>FAR</div><div><b id="frrV" style="color:var(--cool)">—</b>FRR</div><div><b id="eerV">—</b>EER</div><div><b id="fteV">2.0%</b>FTE</div></div>
+<p class="hint" id="thrHint"></p></div></div>
+</div>
+<dl class="terms"><dt>FAR</dt><dd>Impostor attempts accepted ÷ all impostor attempts. A security failure.</dd><dt>FRR</dt><dd>Genuine attempts rejected ÷ all genuine attempts. A usability failure.</dd><dt>FTE</dt><dd>Users who cannot be enrolled ÷ all users (worn fingerprints, eye conditions).</dd><dt>EER</dt><dd>The point where FAR = FRR. Lower EER means a better system overall.</dd></dl>
+</div></div>
+
+<div class="topic rv"><div class="tlabel">4.4<b>Memory requirement</b></div><div class="tbody">
+<h3>Memory requirement and allocation</h3>
+<p class="sub">Template size times population sets storage needs, and decides whether matching can run on a card, a phone or must use a server.</p>
+<div class="fig">
+<div class="fbar"><b>FIG 4.4</b> Template storage calculator<span class="led"></span></div>
+<div class="fbody"><div class="stage"><svg class="vis" id="memSvg" viewBox="0 0 600 260" width="600" height="260"></svg></div>
+<div class="ctrl"><label class="rg"><span>Enrolled users <b id="muV"></b></span><input type="range" id="mu" min="0" max="9" value="4"></label>
+<p class="hint">Typical sizes: fingerprint minutiae ≈ 250 B–1 KB, IrisCode 512 B, face embedding 512 floats ≈ 2 KB, raw fingerprint image ≈ 100 KB. Smart cards hold a few KB of free memory.</p></div></div>
+</div>
+</div></div>
+
+<div class="topic rv uq"><div class="tlabel">Check<b>Unit IV quiz</b></div><div class="tbody">
+<h3>Test yourself on Unit IV</h3><p class="meta" id="qs_u4">Score 0 / 5</p>
+<div class="qz" data-quiz="u4"></div></div></div>
+</section>
+
+<!-- ================= UNIT V ================= -->
+<section class="unit" id="u5">
+<div class="uhead rv"><div class="unum">05</div><div>
+<p class="meta">Unit V · CO5</p>
+<h2>Biometric Authentication</h2>
+<p style="font-size:19px;color:var(--ink2);max-width:760px">Authentication methods and systems, machine learning for matching, and how to secure and trust a biometric transaction.</p>
+<div class="topics"><span>Authentication methods</span><span>Authentication systems</span><span>By fingerprint</span><span>By face recognition</span><span>By hand geometry</span><span>Expectation–Maximization</span><span>Support Vector Machines</span><span>Securing a transaction</span><span>Matching location</span><span>Local host</span><span>Authentication server</span><span>Match on card</span><span>Multibiometrics</span><span>Two-factor authentication</span></div>
+</div></div>
+
+<div class="topic rv"><div class="tlabel">5.1<b>Support Vector Machines</b></div><div class="tbody">
+<h3>Finding the widest margin</h3>
+<p class="sub">An SVM learns the boundary between genuine and impostor samples that leaves the widest possible gap. Only the points nearest the boundary — the support vectors — define it. Click to add samples and train.</p>
+<div class="fig">
+<div class="fbar"><b>FIG 5.1</b> Linear SVM trainer · click the plot to add points<span class="led"></span></div>
+<div class="fbody"><div class="stage"><canvas id="svmC" width="520" height="360" style="cursor:crosshair"></canvas></div>
+<div class="ctrl"><h4>Add class</h4><div class="seg" id="svmCls"><button data-c="1" class="on">Genuine ●</button><button data-c="-1">Impostor ■</button></div>
+<button class="btn pri" id="svmTrain">Train</button><button class="btn" id="svmReset">Reset data</button>
+<div class="read"><div><b id="svmAcc">—</b>Accuracy</div><div><b id="svmSv">—</b>Support vectors</div></div>
+<p class="hint">Solid line = decision boundary. Dashed lines = margin. Circled points = support vectors.</p></div></div>
+</div>
+</div></div>
+
+<div class="topic rv"><div class="tlabel">5.2<b>Expectation–Maximization</b></div><div class="tbody">
+<h3>Fitting a Gaussian Mixture Model</h3>
+<p class="sub">EM fits a mixture of Gaussians to data whose group labels are unknown. The E-step estimates how much each point belongs to each Gaussian; the M-step moves the Gaussians to fit those weights. Repeat until stable. This is how classic speaker models are trained.</p>
+<div class="fig">
+<div class="fbar"><b>FIG 5.2</b> EM iterations on 1-D feature data<span class="led"></span></div>
+<div class="fbody"><div class="stage"><canvas id="emC" width="600" height="280"></canvas></div>
+<div class="ctrl"><button class="btn pri" id="emStep">E + M step</button><button class="btn" id="emRun">Run to convergence</button><button class="btn" id="emReset">New data</button>
+<div class="read"><div><b id="emIt">0</b>Iteration</div><div><b id="emLL">—</b>Log-likelihood</div></div></div></div>
+</div>
+</div></div>
+
+<div class="topic rv"><div class="tlabel">5.3<b>Securing the transaction</b></div><div class="tbody">
+<h3>Where should matching happen?</h3>
+<p class="sub">The matching location decides where the template lives, what travels over the network, and what an attacker must break.</p>
+<div class="fig">
+<div class="fbar"><b>FIG 5.3</b> Matching location and data flow<span class="led"></span></div>
+<div class="fbody"><div class="stage"><svg class="vis" id="locSvg" viewBox="0 0 620 300" width="620" height="300"></svg></div>
+<div class="ctrl"><h4>Matching location</h4><div class="seg" id="locSel" style="flex-direction:column"><button data-l="0" class="on">Local host</button><button data-l="1">Authentication server</button><button data-l="2">Match on card (MOC)</button></div>
+<p class="hint" id="locTxt"></p></div></div>
+</div>
+<div class="cols">
+<div><p class="cap">TRUSTING THE TRANSACTION</p><p>Encrypt and sign every message, use liveness detection at the sensor, protect stored templates, use time-stamps or nonces to block replay, and log every decision.</p></div>
+<div><p class="cap">AUTHENTICATION METHODS</p><p>Fingerprint (minutiae matching), face (embedding distance), hand geometry (measurement distance), and combinations of these with cards or PINs.</p></div>
+</div>
+</div></div>
+
+<div class="topic rv"><div class="tlabel">5.4<b>Multibiometrics &amp; 2FA</b></div><div class="tbody">
+<h3>Two-factor authentication</h3>
+<p class="sub">Two-factor means two different kinds of evidence. Two biometrics alone is multibiometric, but still one factor. Toggle what the user presents.</p>
+<div class="fig">
+<div class="fbar"><b>FIG 5.4</b> Access decision<span class="led"></span></div>
+<div class="fbody"><div class="stage"><svg class="vis" id="mfaSvg" viewBox="0 0 600 220" width="600" height="220"></svg></div>
+<div class="ctrl"><h4>User presents</h4><div class="seg" id="mfaSel" style="flex-direction:column"><button data-k="pin">PIN (know)</button><button data-k="card">Smart card (have)</button><button data-k="finger" class="on">Fingerprint (are)</button><button data-k="face">Face (are)</button></div>
+<div class="verdict" id="mfaV">—</div><p class="hint" id="mfaTxt"></p></div></div>
+</div>
+</div></div>
+
+<div class="topic rv uq"><div class="tlabel">Check<b>Unit V quiz</b></div><div class="tbody">
+<h3>Test yourself on Unit V</h3><p class="meta" id="qs_u5">Score 0 / 5</p>
+<div class="qz" data-quiz="u5"></div></div></div>
+</section>
+
+<!-- ================= TOOLS + QUIZ ================= -->
+<section class="unit" id="tools">
+<div class="uhead rv"><div class="unum">✦</div><div><p class="meta">Programs · 20% of the exam</p><h2>Tools, techniques &amp; labs</h2></div></div>
+<table class="t rv"><tr><th>Unit</th><th>Techniques</th><th>Tools &amp; datasets</th></tr>
+<tr><td>I</td><td>Enrollment, templates, 1:1 vs 1:N, Daugman iris coding</td><td>ISO/IEC 19794 formats, ISO/IEC 30107 (liveness), OSIRIS iris toolkit, CASIA-Iris</td></tr>
+<tr><td>II</td><td>Orientation field, Gabor enhancement, thinning, crossing number, minutiae matching</td><td>NIST NBIS (MINDTCT, BOZORTH3, NFIQ), OpenCV, SourceAFIS, FVC2002/2004</td></tr>
+<tr><td>III</td><td>PCA, LDA, LBP, CNN embeddings, hand contour features</td><td>OpenCV, dlib, DeepFace, MediaPipe Hands, ORL, LFW, 11k Hands</td></tr>
+<tr><td>IV</td><td>MFCC, GMM, score normalisation, fusion rules, ROC/DET, EER</td><td>librosa, SpeechBrain, scikit-learn, VoxCeleb, ASVspoof</td></tr>
+<tr><td>V</td><td>SVM, EM-GMM, encryption, match-on-card, 2FA</td><td>scikit-learn, PyCryptodome, Java Card concepts</td></tr></table>
+</section>
+
+<section class="unit" id="quiz">
+<div class="uhead rv"><div class="unum">?</div><div><p class="meta">Self-check</p><h2>Final review quiz</h2><p class="meta" id="qScore">Score 0 / 0</p></div></div>
+<div class="qz" id="qz"></div>
+</section>
+
+<footer>24CYU29C Biometric Security · Textbooks: Wayman, Jain, Maltoni &amp; Maio, <i>Biometric Systems</i> (Springer, 2005); Kung, Lin &amp; Mak, <i>Biometric Authentication: A Machine Learning Approach</i> (Prentice Hall, 2005). All graphics are generated live for teaching; data are simulated.</footer>
+</div>
+
+<script>
+"use strict";
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const NS='http://www.w3.org/2000/svg';
+function el(tag,attrs,parent){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e}
+function seg(id,fn){const w=$(id);w.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;[...w.children].forEach(x=>x.classList.remove('on'));b.classList.add('on');fn(b.dataset)})}
+function rng(seed){let s=seed>>>0||1;return()=>{s^=s<<13;s^=s>>>17;s^=s<<5;return(s>>>0)/4294967296}}
+const C={hot:'#FF6A3D',cool:'#7FB2FF',ok:'#9BD67A',txt:'#E9E5DA',mut:'#8F8B80',line:'#2E2D28',scr:'#121210'};
+
+/* reveal + nav + progress */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+$$('.rv').forEach(x=>io.observe(x));
+addEventListener('scroll',()=>{const h=document.documentElement;$('#prog').style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';
+ let cur='';['u1','u2','u3','u4','u5','quiz'].forEach(id=>{if($('#'+id).getBoundingClientRect().top<120)cur=id});$$('#nav a').forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+cur))},{passive:true});
+
+/* ============ FINGERPRINT ENGINE ============ */
+function makeFinger(type,seed){const r=rng(seed);const m=[];const n=type==='arch'?4:6;
+ for(let i=0;i<n;i++){m.push({x:.3+r()*.4,y:.28+r()*.45,s:r()<.5?1:-1})}
+ return{type,seed,m,k:22+r()*4,rot:(r()-.5)*.35,cy:.42+r()*.08,cx:.47+r()*.06}}
+function phase(f,x,y){ // x,y in 0..1
+ let dx=x-f.cx,dy=y-f.cy;const c=Math.cos(f.rot),s=Math.sin(f.rot);const X=dx*c-dy*s,Y=dx*s+dy*c;let p;
+ if(f.type==='whorl')p=Math.hypot(X,Y*1.1);
+ else if(f.type==='loop')p=Y<0?Math.hypot(X,Y):Math.abs(X)+Y*.15;
+ else p=(Y+.25*Math.exp(-X*X/.04))*1.0;
+ p*=f.k*2*Math.PI;
+ for(const q of f.m)p+=q.s*Math.atan2(y-q.y,x-q.x);
+ return p}
+function renderFinger(cv,f,stage,quality,t){const W=cv.width,H=cv.height,ctx=cv.getContext('2d');const img=ctx.createImageData(W,H),d=img.data;
+ const r=rng(f.seed*7+3);const noise=new Float32Array(64*64);for(let i=0;i<noise.length;i++)noise[i]=r();
+ const q=quality/100;const blot=[];for(let i=0;i<6;i++)blot.push({x:r(),y:r(),rad:.05+r()*.12});
+ for(let j=0;j<H;j++)for(let i=0;i<W;i++){const x=i/W,y=j/H;const ex=(x-.5)/.36,ey=(y-.52)/.46;const e=ex*ex+ey*ey;const o=(j*W+i)*4;
+  if(e>1){d[o]=18;d[o+1]=18;d[o+2]=16;d[o+3]=255;continue}
+  const p=phase(f,x,y);let v=.5+.5*Math.cos(p);let out;
+  if(stage===0){const gx=i/W*40,gy=j/H*40,ix=gx|0,iy=gy|0,fx=gx-ix,fy=gy-iy,N0=noise[iy*64+ix],N1=noise[iy*64+ix+1],N2=noise[(iy+1)*64+ix],N3=noise[(iy+1)*64+ix+1];const nz=(N0*(1-fx)+N1*fx)*(1-fy)+(N2*(1-fx)+N3*fx)*fy;let b=0;for(const B of blot){const dd=Math.hypot(x-B.x,y-B.y);if(dd<B.rad)b+=(1-dd/B.rad)*(1-q)}
+   v=v*(.35+.5*q)+(nz-.5)*(1-q)*.9+b*.6+(Math.random()-.5)*(1-q)*.18;v=Math.min(1,Math.max(0,v));out=[233-v*190,229-v*190,218-v*190]}
+  else if(stage===1){out=[233-v*215,229-v*215,218-v*215]}
+  else if(stage===2){out=v>.5?[25,25,22]:[233,229,218]}
+  else {out=(Math.cos(p)>.93)?(stage===3?[25,25,22]:[120,118,110]):[233,229,218]}
+  const fade=e>.86?(1-e)/.14:1;d[o]=18+(out[0]-18)*fade;d[o+1]=18+(out[1]-18)*fade;d[o+2]=16+(out[2]-16)*fade;d[o+3]=255}
+ ctx.putImageData(img,0,0);
+ if(stage===4){f.m.forEach((q,k)=>{const X=q.x*W,Y=q.y*H;const a=Math.atan2(q.y-f.cy,q.x-f.cx);const show=t===undefined?1:Math.min(1,Math.max(0,(t-k*.18)*3));if(!show)return;
+  ctx.globalAlpha=show;ctx.strokeStyle=q.s>0?C.hot:C.cool;ctx.lineWidth=2.5;
+  if(q.s>0){ctx.beginPath();ctx.arc(X,Y,8,0,7);ctx.stroke()}else{ctx.strokeRect(X-7,Y-7,14,14)}
+  ctx.beginPath();ctx.moveTo(X,Y);ctx.lineTo(X+Math.cos(a)*20,Y+Math.sin(a)*20);ctx.stroke();ctx.globalAlpha=1})}}
+
+/* hero: cycling stages */
+(function(){const cv=$('#heroFp');let f=makeFinger('loop',11),st=0,t0=performance.now();const types=['loop','whorl','arch'];let ti=0;
+ const labels=['RAW CAPTURE','ENHANCED','BINARISED','THINNED','MINUTIAE'];
+ function frame(now){const el=(now-t0)/1000;if(el>2.2){st++;t0=now;if(st>4){st=0;ti=(ti+1)%3;f=makeFinger(types[ti],Math.floor(Math.random()*1e6))}draw(0)}else if(st===4)draw(el);if(!RM)requestAnimationFrame(frame)}
+ function draw(t){renderFinger(cv,f,st,40,st===4?t:undefined);const c=cv.getContext('2d');c.fillStyle=C.hot;c.font='12px IBM Plex Mono, monospace';c.fillText('STAGE '+(st+1)+'/5 · '+labels[st],14,22);c.fillStyle=C.mut;c.fillText(f.type.toUpperCase()+' · '+f.m.length+' MINUTIAE',14,406)}
+ draw();if(!RM)requestAnimationFrame(frame)})();
+
+/* fig 2.1 */
+(function(){const cv=$('#fpC');let f=makeFinger('loop',42),st=0,anim=0;
+ const hints=['Noisy sensor image: smudges, dry patches and low contrast.','Gabor filters tuned to local ridge orientation restore clean ridges.','Thresholding to pure black/white ridge map.','Ridges thinned to 1-pixel skeleton lines ready for scanning.','Crossing-number scan marks minutiae: ● bifurcation (orange), ■ ending (blue), with ridge direction.'];
+ function upd(){const q=+$('#fpQ').value;$('#fpQv').textContent=q;const nf=q>80?1:q>60?2:q>40?3:q>20?4:5;$('#fpNfiq').textContent=nf+' / 5';$('#fpMin').textContent=st===4?f.m.length:'—';$('#fpHint').textContent=hints[st];
+  if(st===4&&!RM){const t0=performance.now();cancelAnimationFrame(anim);const go=n=>{const t=(n-t0)/1000;renderFinger(cv,f,4,q,t);if(t<2)anim=requestAnimationFrame(go)};anim=requestAnimationFrame(go)}else renderFinger(cv,f,st,q)}
+ seg('#fpType',d=>{f=makeFinger(d.t,f.seed);upd()});seg('#fpStage',d=>{st=+d.s;upd()});$('#fpQ').oninput=upd;$('#fpNew').onclick=()=>{f=makeFinger(f.type,Math.floor(Math.random()*1e6));upd()};upd()})();
+
+/* fig 2.2 matching */
+(function(){const cv=$('#mtC'),ctx=cv.getContext('2d');let mode='gen';const r=rng(77);const A=[];for(let i=0;i<14;i++)A.push({x:(r()-.5)*180,y:(r()-.5)*220,a:r()*6.28,t:r()<.5});
+ let B=[],aligned=0,anim=0;
+ function mkB(){const rot=+$('#mtR').value*Math.PI/180;$('#mtRv').textContent=$('#mtR').value+'°';const rr=rng(mode==='gen'?5:99);
+  if(mode==='gen'){B=A.filter((_,i)=>i!==3&&i!==9).map(p=>({x:p.x+(rr()-.5)*8,y:p.y+(rr()-.5)*8,a:p.a,t:p.t}));B.push({x:40,y:-90,a:1,t:true})}
+  else{B=[];for(let i=0;i<13;i++)B.push({x:(rr()-.5)*180,y:(rr()-.5)*220,a:rr()*6.28,t:rr()<.5})}
+  B.rot=rot;aligned=0;draw();$('#mtPairs').textContent='—';$('#mtScore').textContent='—';$('#mtV').textContent='READY';$('#mtV').className='verdict'}
+ function tp(p,rot,cx,cy){const c=Math.cos(rot),s=Math.sin(rot);return[cx+p.x*c-p.y*s,cy+p.x*s+p.y*c]}
+ function print(cx,cy){ctx.strokeStyle=C.line;ctx.lineWidth=1;for(let k=1;k<12;k++){ctx.beginPath();ctx.ellipse(cx,cy,k*11,k*13,0,0,7);ctx.stroke()}}
+ function mark(x,y,t,col){ctx.strokeStyle=col;ctx.lineWidth=2;if(t){ctx.beginPath();ctx.arc(x,y,5,0,7);ctx.stroke()}else ctx.strokeRect(x-4,y-4,8,8)}
+ function draw(){ctx.fillStyle=C.scr;ctx.fillRect(0,0,620,320);print(155,160);print(465,160);ctx.font='11px IBM Plex Mono, monospace';ctx.fillStyle=C.mut;ctx.fillText('TEMPLATE (ENROLLED)',90,20);ctx.fillText('PROBE · rotation '+Math.round((1-aligned)*B.rot*180/Math.PI)+'°',395,20);
+  A.forEach(p=>mark(155+p.x*.6,160+p.y*.6,p.t,C.cool));const rot=B.rot*(1-aligned);const P=B.map(p=>tp({x:p.x*.6,y:p.y*.6},rot,465,160));P.forEach((q,i)=>mark(q[0],q[1],B[i].t,C.hot));return P}
+ function match(){cancelAnimationFrame(anim);const t0=performance.now();const go=n=>{aligned=Math.min(1,(n-t0)/900);const P=draw();if(aligned<1&&!RM)anim=requestAnimationFrame(go);else{aligned=1;const P2=draw();let pairs=0;
+   A.forEach(a=>{const ax=155+a.x*.6,ay=160+a.y*.6;let best=1e9,bi=-1;P2.forEach((q,i)=>{const d=Math.hypot(q[0]-310-ax,q[1]-ay);if(d<best&&B[i].t===a.t){best=d;bi=i}});if(best<9){pairs++;ctx.strokeStyle='rgba(155,214,122,.6)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(ax,ay);ctx.lineTo(P2[bi][0],P2[bi][1]);ctx.stroke()}});
+   const sc=Math.round(pairs*pairs/(A.length*B.length)*100);$('#mtPairs').textContent=pairs+' / '+A.length;$('#mtScore').textContent=sc;const ok=pairs>=8;$('#mtV').textContent=ok?'MATCH':'NO MATCH';$('#mtV').className='verdict '+(ok?'acc':'rej')}};anim=requestAnimationFrame(go)}
+ seg('#mtMode',d=>{mode=d.m;mkB()});$('#mtR').oninput=mkB;$('#mtGo').onclick=match;mkB()})();
+
+/* ============ FIG 1.1 FLOW ============ */
+(function(){const s=$('#flowSvg');let mode='enrol';const boxes={sensor:[20,120],feat:[175,120],tmpl:[330,40],match:[330,200],dec:[490,200],db:[490,40]};
+ const lab={sensor:'Sensor',feat:'Feature\nextraction',tmpl:'Template',match:'Matcher',dec:'Decision',db:'Database'};
+ const txt={enrol:'Capture → extract → store a reference template in the database. Quality check rejects poor samples.',verify:'User claims an identity. The probe is compared with ONE template: accept if score ≥ threshold.',identify:'No claim. The probe is compared with EVERY template; the best match above threshold is returned.'};
+ const paths={enrol:[['sensor','feat'],['feat','tmpl'],['tmpl','db']],verify:[['sensor','feat'],['feat','match'],['db','match'],['match','dec']],identify:[['sensor','feat'],['feat','match'],['db','match'],['match','dec']]};
+ function cxy(k){const b=boxes[k];return[b[0]+60,b[1]+28]}
+ function build(){s.innerHTML='';const defs=el('defs',{},s);const mk=el('marker',{id:'ar',viewBox:'0 0 10 10',refX:9,refY:5,markerWidth:7,markerHeight:7,orient:'auto'},defs);el('path',{d:'M0 0L10 5L0 10z',fill:C.mut},mk);
+  const act=paths[mode];const used=new Set(act.flat());
+  act.forEach(([a,b],i)=>{const[x1,y1]=cxy(a),[x2,y2]=cxy(b);const p=el('path',{id:'fp'+i,d:`M${x1+(x2>x1?60:x2<x1?-60:0)} ${y1+(y2>y1?28:y2<y1?-28:0)}L${x2-(x2>x1?62:x2<x1?-62:0)} ${y2-(y2>y1?30:y2<y1?-30:0)}`,stroke:C.mut,'stroke-width':1.5,fill:'none','stroke-dasharray':'4 5','marker-end':'url(#ar)'},s);
+   if(!RM)el('animate',{attributeName:'stroke-dashoffset',from:18,to:0,dur:'1s',repeatCount:'indefinite'},p)});
+  for(const k in boxes){const[x,y]=boxes[k];const on=used.has(k);const g=el('g',{opacity:on?1:.22,id:'b_'+k},s);el('rect',{x,y,width:120,height:56,fill:on?'#1C1C19':'none',stroke:k==='dec'&&mode!=='enrol'?C.hot:on?C.txt:C.mut,'stroke-width':1.2},g);
+   lab[k].split('\n').forEach((t,i,a)=>{const tx=el('text',{x:x+60,y:y+33+(i-(a.length-1)/2)*15,'text-anchor':'middle',fill:C.txt,'font-family':'IBM Plex Mono, monospace','font-size':12},g);tx.textContent=t})}
+  if(mode==='identify'){for(let i=0;i<5;i++)el('rect',{x:496+i*22,y:100,width:16,height:10,fill:C.cool,opacity:.6},s);const t=el('text',{x:550,y:128,'text-anchor':'middle',fill:C.mut,'font-family':'IBM Plex Mono, monospace','font-size':10},s);t.textContent='1 : N templates'}
+  if(mode==='verify'){el('rect',{x:540,y:100,width:16,height:10,fill:C.cool},s);const t=el('text',{x:550,y:128,'text-anchor':'middle',fill:C.mut,'font-family':'IBM Plex Mono, monospace','font-size':10},s);t.textContent='1 : 1 claimed'}
+  $('#flowTxt').textContent=txt[mode]}
+ function run(){const act=paths[mode];act.forEach((_,i)=>{const dot=el('circle',{r:5,fill:C.hot},s);if(RM){dot.remove();return}const am=el('animateMotion',{dur:'.7s',begin:(i*.7)+'s',fill:'freeze'},dot);el('mpath',{href:'#fp'+i},am);dot.setAttribute('opacity',0);el('set',{attributeName:'opacity',to:1,begin:(i*.7)+'s'},dot);setTimeout(()=>dot.remove(),act.length*700+600);am.beginElement&&setTimeout(()=>{},0)});
+  const last=act.length*700;setTimeout(()=>{const g=$('#b_'+(mode==='enrol'?'db':'dec'));if(!g)return;const r0=g.querySelector('rect');r0.setAttribute('fill',mode==='enrol'?'#20301B':'#20301B');const t=el('text',{x:boxes[mode==='enrol'?'db':'dec'][0]+60,y:boxes[mode==='enrol'?'db':'dec'][1]+76,'text-anchor':'middle',fill:C.ok,'font-family':'IBM Plex Mono, monospace','font-size':12},s);t.textContent=mode==='enrol'?'STORED ✓':mode==='verify'?'ACCEPT · score 0.91':'ID #0042 · score 0.88';setTimeout(build,1800)},last)}
+ seg('#flowMode',d=>{mode=d.m;build()});$('#flowRun').onclick=()=>{build();setTimeout(run,30)};build()})();
+
+/* ============ FIG 1.2 RADAR ============ */
+(function(){const s=$('#radar');const P=['Universality','Uniqueness','Permanence','Collectability','Performance','Acceptability','Circumvention'];
+ const D={Fingerprint:'MHHMHMM',Face:'HLMHLHH',Iris:'HHHMHLL',Hand:'MMMHMMM',Voice:'MLLMLHH'};const V={H:3,M:2,L:1};let a='Fingerprint',b='Iris';
+ ['#radA','#radB'].forEach((id,j)=>{const w=$(id);Object.keys(D).forEach(k=>{const bt=document.createElement('button');bt.textContent=k;bt.dataset.k=k;if(k===(j?b:a))bt.className='on';w.appendChild(bt)});seg(id,d=>{if(j)b=d.k;else a=d.k;draw()})});
+ const cx=220,cy=200,R=140;function pt(i,v){const an=-Math.PI/2+i*2*Math.PI/7;return[cx+Math.cos(an)*R*v/3,cy+Math.sin(an)*R*v/3]}
+ let polys={};function draw(){s.innerHTML='';for(let l=1;l<=3;l++)el('polygon',{points:P.map((_,i)=>pt(i,l).join(',')).join(' '),fill:'none',stroke:C.line},s);
+  P.forEach((p,i)=>{const[x,y]=pt(i,3);el('line',{x1:cx,y1:cy,x2:x,y2:y,stroke:C.line},s);const[lx,ly]=pt(i,3.55);const t=el('text',{x:lx,y:ly+4,'text-anchor':'middle',fill:C.mut,'font-family':'IBM Plex Mono, monospace','font-size':11},s);t.textContent=p});
+  [[a,C.hot],[b,C.cool]].forEach(([k,col])=>{const pts=[...D[k]].map((c,i)=>pt(i,V[c]).join(',')).join(' ');const pg=el('polygon',{points:pts,fill:col,'fill-opacity':.14,stroke:col,'stroke-width':2},s);
+   if(!RM){pg.style.transformOrigin=cx+'px '+cy+'px';pg.animate([{transform:'scale(.2)',opacity:0},{transform:'scale(1)',opacity:1}],{duration:600,easing:'cubic-bezier(.2,.8,.2,1)'})}
+   [...D[k]].forEach((c,i)=>{const[x,y]=pt(i,V[c]);el('circle',{cx:x,cy:y,r:3.5,fill:col},s)})})}
+ draw()})();
+
+/* ============ FIG 1.3 IRIS ============ */
+(function(){const cv=$('#irisC'),cu=$('#irisU'),cb=$('#irisB');const c=cv.getContext('2d'),u=cu.getContext('2d'),bb=cb.getContext('2d');
+ function mkIris(seed){const r=rng(seed);const F=[];for(let i=0;i<70;i++)F.push({n:1+Math.floor(r()*40),ph:r()*6.28,m:r()*10,a:.2+r()*.8});const crypt=[];for(let i=0;i<14;i++)crypt.push({t:r()*6.28,p:.2+r()*.6,s:.03+r()*.06});return{F,crypt,hue:r()}}
+ const eyeA=mkIris(101),eyeB=mkIris(202);let cmp='same',t=0,anim;
+ function tex(e,th,rho){let v=0;for(const f of e.F)v+=f.a*Math.sin(f.n*th+f.ph+f.m*rho);v/=7;for(const k of e.crypt){const dt=Math.atan2(Math.sin(th-k.t),Math.cos(th-k.t));const d=Math.hypot(dt*.6,rho-k.p);if(d<k.s)v-=1.4*(1-d/k.s)}return v}
+ function drawEye(e,pup,sweep){const W=300,cx=150,cy=150,Ri=118;const img=c.createImageData(W,W),d=img.data;
+  for(let j=0;j<W;j++)for(let i=0;i<W;i++){const dx=i-cx,dy=j-cy,rr=Math.hypot(dx,dy),o=(j*W+i)*4;let col;
+   if(rr<pup)col=[8,8,8];else if(rr<Ri){const rho=(rr-pup)/(Ri-pup),th=Math.atan2(dy,dx);const v=tex(e,th,rho);const base=e.hue<.5?[120,82,48]:[70,96,120];const k=.75+v*.35-rho*.15;col=[base[0]*k,base[1]*k,base[2]*k];if(rho>.92)col=col.map(x=>x*.55)}
+   else if(rr<145){col=[214,208,196];const g=(rr-Ri)/27;col=col.map(x=>x-(1-g)*40)}else col=[18,18,16];
+   d[o]=col[0];d[o+1]=col[1];d[o+2]=col[2];d[o+3]=255}
+  c.putImageData(img,0,0);
+  c.lineWidth=2;const s=Math.min(1,sweep);c.strokeStyle=C.hot;c.beginPath();c.arc(cx,cy,pup,-Math.PI/2,-Math.PI/2+s*6.283);c.stroke();c.strokeStyle=C.cool;c.beginPath();c.arc(cx,cy,Ri,-Math.PI/2,-Math.PI/2+s*6.283);c.stroke();
+  if(sweep<1.4){const an=-Math.PI/2+Math.min(sweep,1)*6.283;c.strokeStyle='rgba(233,229,218,.7)';c.lineWidth=1;c.beginPath();c.moveTo(cx+Math.cos(an)*pup,cy+Math.sin(an)*pup);c.lineTo(cx+Math.cos(an)*Ri,cy+Math.sin(an)*Ri);c.stroke()}
+  c.fillStyle=C.mut;c.font='10px IBM Plex Mono, monospace';c.fillText('PUPIL r='+pup,8,292);c.fillText('LIMBUS r='+Ri,206,292)}
+ function unwrap(e,cols,ctx,w,h,y0,noise){const img=ctx.createImageData(w,h),d=img.data;const base=e.hue<.5?[120,82,48]:[70,96,120];const shown=Math.floor(w*cols);
+  for(let j=0;j<h;j++)for(let i=0;i<w;i++){const o=(j*w+i)*4;if(i>shown){d[o]=28;d[o+1]=28;d[o+2]=25;d[o+3]=255;continue}const th=i/w*6.283-Math.PI/2,rho=j/h;const v=tex(e,th,rho)+noise*(Math.sin(i*1.7+j*2.3)*.08);const k=.75+v*.35-rho*.15;d[o]=base[0]*k;d[o+1]=base[1]*k;d[o+2]=base[2]*k;d[o+3]=255}
+  ctx.putImageData(img,0,y0)}
+ function code(e,noise){const bits=[];for(let r=0;r<4;r++)for(let i=0;i<128;i++){const th=i/128*6.283-Math.PI/2,rho=(r+.5)/4;const a=tex(e,th,rho)+noise*Math.sin(i*1.7+r*2.3)*.08,b=tex(e,th+.05,rho)+noise*Math.sin(i*1.9+r*2.1)*.08;bits.push(a>b?1:0)}return bits}
+ const codeA=code(eyeA,0);
+ function full(sweep){const pup=+$('#pup').value;$('#pupV').textContent=pup+' px';drawEye(eyeA,pup,sweep);
+  const prog=Math.max(0,Math.min(1,(sweep-1)/.8));u.fillStyle=C.scr;u.fillRect(0,0,560,70);unwrap(eyeA,prog,u,560,54,0,0);u.fillStyle=C.mut;u.font='10px IBM Plex Mono, monospace';u.fillText('NORMALISED (RUBBER SHEET) · θ 0→360° · r pupil→limbus',0,66);
+  const pb=Math.max(0,Math.min(1,(sweep-1.8)/.7));bb.fillStyle=C.scr;bb.fillRect(0,0,560,56);const other=cmp==='same'?code(eyeA,(pup-32)/12+.6):code(eyeB,0);
+  const n=Math.floor(512*pb);let diff=0;for(let k=0;k<512;k++){const x=(k%128)*4.375,y=Math.floor(k/128)*10;if(k<n){bb.fillStyle=codeA[k]?C.txt:'#3A3934';bb.fillRect(x,y,3.6,8)}if(codeA[k]!==other[k])diff++}
+  bb.fillStyle=C.mut;bb.fillText('IRISCODE · 512 bits shown',0,52);
+  if(pb>=1){const hd=diff/512;$('#hdV').textContent=hd.toFixed(2);$('#irisDec').textContent=hd<.32?'MATCH':'REJECT';$('#irisDec').style.color=hd<.32?C.ok:C.hot}else{$('#hdV').textContent='…';$('#irisDec').textContent='…';$('#irisDec').style.color=''}}
+ function play(){cancelAnimationFrame(anim);if(RM){full(3);return}const t0=performance.now();const go=n=>{const s=(n-t0)/1400;full(s);if(s<2.6)anim=requestAnimationFrame(go)};anim=requestAnimationFrame(go)}
+ $('#pup').oninput=()=>full(3);seg('#irisCmp',d=>{cmp=d.c;full(3)});
+ const ob=new IntersectionObserver(es=>{if(es[0].isIntersecting){play();ob.disconnect()}},{threshold:.3});ob.observe(cv);full(0)})();
+
+/* ============ FIG 3.1 FACE ============ */
+(function(){const s=$('#faceSvg');const G=[{n:'Anu',v:[30,40,55,40]},{n:'Ravi',v:[70,65,40,75]},{n:'Meena',v:[50,25,75,30]},{n:'Karthik',v:[45,80,30,60]}];let probe=[...G[0].v],noisy=false;
+ function face(svg,v,small){svg.innerHTML='';const sc=small?.38:1;const g=el('g',{transform:`scale(${sc})`},svg);const jw=70+v[3]*.5,es=26+v[0]*.32,nl=30+v[1]*.35,mw=26+v[2]*.4;const cx=130;
+  el('path',{d:`M${cx-jw} 120 Q${cx-jw} 40 ${cx} 38 Q${cx+jw} 40 ${cx+jw} 120 Q${cx+jw*.9} 230 ${cx} 290 Q${cx-jw*.9} 230 ${cx-jw} 120Z`,fill:'none',stroke:small?C.mut:C.txt,'stroke-width':small?3:1.5},g);
+  [[cx-es,130],[cx+es,130]].forEach(([x,y])=>{el('ellipse',{cx:x,cy:y,rx:14,ry:7,fill:'none',stroke:small?C.mut:C.txt,'stroke-width':small?3:1.5},g);el('circle',{cx:x,cy:y,r:3,fill:small?C.mut:C.txt},g)});
+  el('path',{d:`M${cx} 140 L${cx-8} ${140+nl} L${cx+8} ${140+nl}`,fill:'none',stroke:small?C.mut:C.txt,'stroke-width':small?3:1.5},g);
+  el('path',{d:`M${cx-mw} ${200+nl*.3} Q${cx} ${214+nl*.3} ${cx+mw} ${200+nl*.3}`,fill:'none',stroke:small?C.mut:C.txt,'stroke-width':small?3:1.5},g);
+  if(small)return;
+  const L=[[cx-es,130],[cx+es,130],[cx,140+nl],[cx-mw,200+nl*.3],[cx+mw,200+nl*.3],[cx-jw,120],[cx+jw,120],[cx,290]];
+  const mesh=[[0,1],[0,2],[1,2],[2,3],[2,4],[3,4],[0,5],[1,6],[3,7],[4,7],[5,3],[6,4]];
+  mesh.forEach(([a,b],i)=>{const ln=el('line',{x1:L[a][0],y1:L[a][1],x2:L[b][0],y2:L[b][1],stroke:C.hot,'stroke-width':1,opacity:.75},g);if(!RM){const len=Math.hypot(L[a][0]-L[b][0],L[a][1]-L[b][1]);ln.setAttribute('stroke-dasharray',len);ln.animate([{strokeDashoffset:len},{strokeDashoffset:0}],{duration:500,delay:300+i*40,fill:'backwards'})}});
+  L.forEach((p,i)=>{const c0=el('circle',{cx:p[0],cy:p[1],r:4,fill:C.hot},g);if(!RM)c0.animate([{r:0,opacity:0},{r:4,opacity:1}],{duration:300,delay:i*50,fill:'backwards'})});
+  const bx=el('rect',{x:cx-jw-14,y:26,width:2*jw+28,height:278,fill:'none',stroke:C.cool,'stroke-width':1.2,'stroke-dasharray':'6 4'},g);
+  const t=el('text',{x:cx-jw-14,y:20,fill:C.cool,'font-family':'IBM Plex Mono, monospace','font-size':10},g);t.textContent='FACE DETECTED · 8 LANDMARKS'}
+ const gal=$('#gallery');const cards=G.map((p,i)=>{const d=document.createElement('div');d.style.cssText='border:1px solid #2E2D28;padding:6px;font:11px IBM Plex Mono,monospace;color:#8F8B80';const sv=document.createElementNS(NS,'svg');sv.setAttribute('viewBox','0 0 100 122');sv.setAttribute('width','100');sv.setAttribute('height','122');face(sv,p.v,true);d.appendChild(sv);const l=document.createElement('div');d.appendChild(l);gal.appendChild(d);return{d,l}});
+ const ld=$('#faceLoad');G.forEach((p,i)=>{const b=document.createElement('button');b.textContent=p.n;b.dataset.i=i;if(!i)b.className='on';ld.appendChild(b)});ld.lastChild&&0;
+ const ub=document.createElement('button');ub.textContent='Unknown';ub.dataset.i='u';ld.appendChild(ub);
+ seg('#faceLoad',d=>{probe=d.i==='u'?[88,10,10,95]:[...G[+d.i].v];noisy=false;sync()});
+ function sync(){$$('.fr').forEach(r=>r.value=probe[r.dataset.i]);upd()}
+ function upd(){probe=$$('.fr').map(r=>+r.value);probe.forEach((v,i)=>$('#fv'+i).textContent=v);face(s,probe);
+  const ds=G.map(p=>Math.hypot(...p.v.map((x,i)=>x-probe[i]))/2);let bi=0;ds.forEach((d,i)=>{if(d<ds[bi])bi=i});
+  cards.forEach((c,i)=>{const sim=Math.max(0,1-ds[i]/60);c.l.innerHTML=`${G[i].n}<br><span style="display:block;height:4px;background:#2E2D28;margin-top:4px"><span style="display:block;height:4px;width:${sim*100}%;background:${i===bi&&ds[i]<14?C.ok:C.mut};transition:width .4s"></span></span>sim ${sim.toFixed(2)}`;c.d.style.borderColor=i===bi&&ds[i]<14?C.ok:'#2E2D28'});
+  const v=$('#faceV');if(ds[bi]<14){v.textContent='MATCH · '+G[bi].n.toUpperCase();v.className='verdict acc'}else{v.textContent='NO MATCH IN GALLERY';v.className='verdict rej'}}
+ $$('.fr').forEach(r=>r.oninput=upd);$('#faceNoise').onclick=()=>{probe=probe.map(v=>Math.max(0,Math.min(100,v+Math.round((Math.random()-.5)*22))));$$('.fr').forEach(r=>r.value=probe[r.dataset.i]);upd()};sync()})();
+
+/* ============ FIG 3.2 HAND ============ */
+(function(){const s=$('#handSvg');let tpl=[88,100,92,145];
+ function upd(){const v=$$('.hr').map(r=>+r.value);v.forEach((x,i)=>$('#hv'+i).textContent=x+' mm');s.innerHTML='';
+  const pw=v[3],px=180-pw/2,py=210;el('rect',{x:px,y:py,width:pw,height:130,rx:22,fill:'#1C1C19',stroke:C.txt,'stroke-width':1.4},s);
+  const fw=pw/4-4;const lens=[v[0]*.95,v[0],v[1],v[2],v[2]*.78];const xs=[0,1,2,3].map(i=>px+4+i*(fw+4));
+  [v[0],v[1],v[2],v[2]*.8].forEach((L,i)=>{const h=L*1.35;el('rect',{x:xs[i],y:py-h+14,width:fw,height:h,rx:fw/2,fill:'#1C1C19',stroke:C.txt,'stroke-width':1.4},s)});
+  el('rect',{x:px+pw-10,y:py+30,width:fw,height:90,rx:fw/2,transform:`rotate(-38 ${px+pw} ${py+75})`,fill:'#1C1C19',stroke:C.txt,'stroke-width':1.4},s);
+  [[xs[0]+fw/2,1],[xs[1]+fw/2,2]].forEach(()=>{});
+  // pegs
+  [[px-10,py+40],[xs[1]+fw+2,py-2],[xs[2]+fw+2,py-2]].forEach(([x,y])=>el('circle',{cx:x,cy:y,r:5,fill:C.mut},s));
+  // measures
+  const m=[[xs[0]+fw/2,py+10,py-v[0]*1.35+14,'L1'],[xs[1]+fw/2,py+10,py-v[1]*1.35+14,'L2'],[xs[2]+fw/2,py+10,py-v[2]*1.35+14,'L3']];
+  m.forEach(([x,y1,y2,l],i)=>{const ln=el('line',{x1:x,y1:y1,x2:x,y2:y2,stroke:C.hot,'stroke-width':2},s);if(!RM)ln.animate([{opacity:0},{opacity:1}],{duration:400,delay:i*120,fill:'backwards'});const t=el('text',{x:x+4,y:y2+14,fill:C.hot,'font-family':'IBM Plex Mono, monospace','font-size':10},s);t.textContent=l});
+  el('line',{x1:px,y1:py+118,x2:px+pw,y2:py+118,stroke:C.cool,'stroke-width':2},s);const t=el('text',{x:px+pw/2-12,y:py+112,fill:C.cool,'font-family':'IBM Plex Mono, monospace','font-size':10},s);t.textContent='W';
+  const d=Math.hypot(...v.map((x,i)=>x-tpl[i]));$('#handD').textContent=d.toFixed(1);const ok=d<12;$('#handDec').textContent=ok?'ACCEPT':'REJECT';$('#handDec').style.color=ok?C.ok:C.hot;
+  const tt=el('text',{x:10,y:372,fill:C.mut,'font-family':'IBM Plex Mono, monospace','font-size':10},s);tt.textContent='TEMPLATE '+tpl.map(x=>x.toFixed(0)).join(' / ')+' mm'}
+ $$('.hr').forEach(r=>r.oninput=upd);$('#handAdapt').onclick=()=>{const v=$$('.hr').map(r=>+r.value);const d=Math.hypot(...v.map((x,i)=>x-tpl[i]));if(d<12)tpl=tpl.map((x,i)=>x*.7+v[i]*.3);upd()};upd()})();
+
+/* ============ FIG 4.1 VOICE ============ */
+(function(){const w=$('#vWave'),sp=$('#vSpec'),wc=w.getContext('2d'),sc=sp.getContext('2d');let spk=0,playing=0,t=0,col=0,anim;
+ const P=[{f0:120,F:[700,1220,2600]},{f0:210,F:[850,1610,2900]}];
+ function clear(){wc.fillStyle=C.scr;wc.fillRect(0,0,600,120);sc.fillStyle=C.scr;sc.fillRect(0,0,600,160);wc.strokeStyle=C.line;wc.beginPath();wc.moveTo(0,60);wc.lineTo(600,60);wc.stroke();sc.fillStyle=C.mut;sc.font='10px IBM Plex Mono, monospace';sc.fillText('0 Hz',4,156);sc.fillText('4 kHz',4,12)}
+ function env(x){const syl=[[.05,.22],[.28,.45],[.52,.7],[.76,.95]];for(const[a,b]of syl)if(x>a&&x<b)return Math.sin((x-a)/(b-a)*Math.PI);return 0}
+ function step(){if(col>=600){playing=0;return}const p=P[spk];const x=col/600;const e=env(x);
+  wc.strokeStyle=C.cool;wc.beginPath();for(let k=0;k<6;k++){const xx=col+k;const tt=xx/600*0.8;let y=0;y+=Math.sin(2*Math.PI*p.f0*tt*3)*.6;p.F.forEach((f,i)=>y+=Math.sin(2*Math.PI*f/30*tt*3+i)*.25/(i+1));const yy=60-y*e*45*(.8+Math.random()*.2);k?wc.lineTo(xx,yy):wc.moveTo(xx,yy)}wc.stroke();
+  for(let k=0;k<6;k++){const xx=col+k;for(let j=0;j<150;j++){const f=(150-j)/150*4000;let a=0;for(let h=1;h<12;h++){const fh=p.f0*h;a+=Math.exp(-((f-fh)**2)/(2*30*30))*.5}p.F.forEach(F=>a*=1+1.8*Math.exp(-((f-F)**2)/(2*120*120)));a*=e;a=Math.min(1,a*1.3+Math.random()*.05);if(a>.03){sc.fillStyle=`rgba(255,${Math.floor(106+a*120)},61,${a})`;sc.fillRect(xx,j+5,1,1)}}}
+  col+=6;anim=requestAnimationFrame(step)}
+ function play(){cancelAnimationFrame(anim);clear();col=0;playing=1;$('#vPitch').textContent=P[spk].f0;$('#vF').textContent=P[spk].F[0];if(RM){while(col<600){const c=col;step();cancelAnimationFrame(anim);if(col===c)break}}else anim=requestAnimationFrame(step)}
+ seg('#vSpk',d=>{spk=+d.p;play()});$('#vPlay').onclick=play;clear();
+ const ob=new IntersectionObserver(es=>{if(es[0].isIntersecting){play();ob.disconnect()}},{threshold:.4});ob.observe(w)})();
+
+/* ============ FIG 4.2 FUSION ============ */
+(function(){const s=$('#fusSvg');let lvl=2,rule='sum';const stages=['Sensor','Feature','Score','Rank','Decision'];const mods=['Face','Finger','Voice'];
+ function draw(){s.innerHTML='';const x0=110,dx=104;mods.forEach((m,i)=>{const y=50+i*80;const t=el('text',{x:10,y:y+5,fill:C.txt,'font-family':'IBM Plex Mono, monospace','font-size':12},s);t.textContent=m;
+   for(let k=0;k<5;k++){const x=x0+k*dx;const fused=k>lvl;if(fused)continue;el('rect',{x,y:y-14,width:70,height:28,fill:'#1C1C19',stroke:k===lvl?C.hot:C.mut,'stroke-width':k===lvl?1.5:1},s);if(k<lvl||k===lvl)el('line',{x1:x-24,y1:y,x2:x,y2:y,stroke:C.mut},s)}});
+  stages.forEach((st,k)=>{const t=el('text',{x:x0+k*dx+35,y:22,'text-anchor':'middle',fill:k===lvl?C.hot:C.mut,'font-family':'IBM Plex Mono, monospace','font-size':11},s);t.textContent=st});
+  const fx=x0+lvl*dx+73,fy=130;mods.forEach((_,i)=>{const p=el('path',{d:`M${x0+lvl*dx+70} ${50+i*80} C${fx-10} ${50+i*80} ${fx-20} ${fy} ${fx} ${fy}`,fill:'none',stroke:C.hot,'stroke-width':1.5,'stroke-dasharray':'4 4'},s);if(!RM)el('animate',{attributeName:'stroke-dashoffset',from:16,to:0,dur:'.8s',repeatCount:'indefinite'},p)});
+  el('circle',{cx:fx+14,cy:fy,r:11,fill:C.hot},s);const t=el('text',{x:fx+14,y:fy+4,'text-anchor':'middle',fill:C.scr,'font-family':'IBM Plex Mono, monospace','font-size':12,'font-weight':600},s);t.textContent='Σ';
+  for(let k=lvl+1;k<5;k++){const x=x0+k*dx;el('rect',{x,y:116,width:70,height:28,fill:'#1C1C19',stroke:C.txt},s);if(k>lvl+1)el('line',{x1:x-34,y1:130,x2:x,y2:130,stroke:C.mut},s);else el('line',{x1:fx+25,y1:130,x2:x,y2:130,stroke:C.mut},s);}
+  const note={0:'Raw data merged (e.g. multiple images). Richest, but traits must be compatible.',1:'Feature vectors concatenated. Needs normalisation; dimensionality grows.',2:'Match scores combined by a rule. Most common in practice.',3:'Candidate rankings merged (identification only).',4:'Final yes/no decisions combined by AND / OR / majority vote.'}[lvl];
+  const nt=el('text',{x:10,y:286,fill:C.mut,'font-family':'IBM Plex Mono, monospace','font-size':11},s);nt.textContent=note;calc()}
+ function calc(){const v=$$('.sr').map(r=>+r.value);v.forEach((x,i)=>$('#s'+i+'v').textContent=x);let f;
+  if(lvl===4){const yes=v.map(x=>x>=60);f=yes.filter(Boolean).length>=2?100:0;$('#fusS').textContent=yes.filter(Boolean).length+'/3 vote'}
+  else{f=rule==='sum'?(v[0]+v[1]+v[2])/3:rule==='w'?.3*v[0]+.5*v[1]+.2*v[2]:rule==='max'?Math.max(...v):Math.min(...v);$('#fusS').textContent=f.toFixed(1)}
+  const ok=f>=60;$('#fusD').textContent=ok?'ACCEPT':'REJECT';$('#fusD').style.color=ok?C.ok:C.hot}
+ seg('#fusLvl',d=>{lvl=+d.l;draw()});seg('#fusRule',d=>{rule=d.r;calc()});$$('.sr').forEach(r=>r.oninput=calc);draw()})();
+
+/* ============ FIG 4.3 FAR/FRR ============ */
+(function(){const dc=$('#distC'),rc=$('#rocC'),d=dc.getContext('2d'),r=rc.getContext('2d');
+ const g=(x,m,s)=>Math.exp(-((x-m)**2)/(2*s*s))/(s*2.5066);
+ function cdf(t,m,s){let a=0;for(let x=-50;x<t;x+=.5)a+=g(x,m,s)*.5;return Math.min(1,a)}
+ function draw(){const t=+$('#thr').value,sep=+$('#sep').value;$('#thrV').textContent=t;$('#sepV').textContent=sep;const im=50-sep/2,gm=50+sep/2,sd=11;
+  d.fillStyle=C.scr;d.fillRect(0,0,620,240);const X=v=>20+v/100*580,Y=p=>210-p*sd*2.5066*170;
+  d.strokeStyle=C.line;d.beginPath();d.moveTo(20,210);d.lineTo(600,210);d.stroke();
+  [[im,C.hot,v=>v>=t],[gm,C.cool,v=>v<t]].forEach(([m,col,err])=>{d.fillStyle=col+'44';d.beginPath();d.moveTo(X(err(0)?0:t),210);for(let v=0;v<=100;v+=.5)if(err(v))d.lineTo(X(v),Y(g(v,m,sd)));d.lineTo(X(err(100)?100:t),210);d.closePath();d.fill();
+   d.strokeStyle=col;d.lineWidth=2;d.beginPath();for(let v=0;v<=100;v+=.5){const p=[X(v),Y(g(v,m,sd))];v?d.lineTo(...p):d.moveTo(...p)}d.stroke()});
+  d.strokeStyle=C.txt;d.setLineDash([5,4]);d.lineWidth=1.5;d.beginPath();d.moveTo(X(t),14);d.lineTo(X(t),210);d.stroke();d.setLineDash([]);
+  d.fillStyle=C.mut;d.font='11px IBM Plex Mono, monospace';d.fillText('IMPOSTOR',X(im)-28,Y(g(im,im,sd))-8);d.fillText('GENUINE',X(gm)-26,Y(g(gm,gm,sd))-8);d.fillText('MATCH SCORE →',500,230);d.fillStyle=C.txt;d.fillText('THRESHOLD',X(t)+6,26);
+  const far=1-cdf(t,im,sd),frr=cdf(t,gm,sd);let eer=1,eb=1e9;for(let k=0;k<=100;k+=.5){const a=1-cdf(k,im,sd),b=cdf(k,gm,sd);if(Math.abs(a-b)<eb){eb=Math.abs(a-b);eer=(a+b)/2}}
+  $('#farV').textContent=(far*100).toFixed(1)+'%';$('#frrV').textContent=(frr*100).toFixed(1)+'%';$('#eerV').textContent=(eer*100).toFixed(1)+'%';
+  $('#thrHint').textContent=far>frr+.02?'Low threshold: convenient, but more impostors are let in.':frr>far+.02?'High threshold: very secure, but genuine users get rejected more.':'Close to the EER: errors are balanced.';
+  r.fillStyle=C.scr;r.fillRect(0,0,620,150);r.strokeStyle=C.line;r.strokeRect(40,10,240,120);r.fillStyle=C.mut;r.fillText('ROC · FAR →',40,146);r.save();r.translate(30,120);r.rotate(-Math.PI/2);r.fillText('1−FRR',0,0);r.restore();
+  r.strokeStyle=C.ok;r.lineWidth=2;r.beginPath();for(let k=0;k<=100;k+=1){const a=1-cdf(k,im,sd),b=1-cdf(k,gm,sd);const px=40+a*240,py=130-b*120;k?r.lineTo(px,py):r.moveTo(px,py)}r.stroke();
+  r.fillStyle=C.txt;r.beginPath();r.arc(40+far*240,130-(1-frr)*120,5,0,7);r.fill();
+  r.fillStyle=C.mut;r.fillText('Better systems bend toward the top-left.',310,40);r.fillText('Dot = current threshold.',310,60);r.fillText('Separation '+sep+' → EER '+(eer*100).toFixed(1)+'%',310,80)}
+ $('#thr').oninput=draw;$('#sep').oninput=draw;draw()})();
+
+/* ============ FIG 4.4 MEMORY ============ */
+(function(){const s=$('#memSvg');const U=[100,1e3,1e4,1e5,1e6,1e7,1e8,5e8,1e9,1.4e9];const M=[['Fingerprint minutiae',500],['IrisCode',512],['Face embedding',2048],['Raw fingerprint image',100000]];
+ function fmt(b){const u=['B','KB','MB','GB','TB','PB'];let i=0;while(b>=1024&&i<5){b/=1024;i++}return b.toFixed(b<10?1:0)+' '+u[i]}
+ function draw(){const n=U[+$('#mu').value];$('#muV').textContent=n.toLocaleString('en-IN');s.innerHTML='';const mx=Math.log10(1.4e9*100000);
+  M.forEach(([k,b],i)=>{const y=30+i*56;const tot=n*b;const w=Math.max(4,Math.log10(Math.max(10,tot))/mx*360);const t=el('text',{x:0,y:y,fill:C.txt,'font-family':'IBM Plex Mono, monospace','font-size':12},s);t.textContent=k+' · '+fmt(b)+' each';
+   const bar=el('rect',{x:0,y:y+8,width:w,height:18,fill:i===3?C.hot:C.cool},s);if(!RM)bar.animate([{width:'0px'},{width:w+'px'}],{duration:500,easing:'ease-out'});const tt=el('text',{x:w+8,y:y+22,fill:C.txt,'font-family':'IBM Plex Mono, monospace','font-size':12},s);tt.textContent=fmt(tot)});
+  const t=el('text',{x:0,y:250,fill:C.mut,'font-family':'IBM Plex Mono, monospace','font-size':10},s);t.textContent='Log scale. India-scale (1.4 bn) shown at the top of the slider.'}
+ $('#mu').oninput=draw;draw()})();
+
+/* ============ FIG 5.1 SVM ============ */
+(function(){const cv=$('#svmC'),c=cv.getContext('2d');let cls=1,pts=[],w=[0,0],b=0,trained=false;
+ function seed(){const r=rng(Math.floor(Math.random()*1e6));pts=[];for(let i=0;i<14;i++){pts.push({x:.15+r()*.3,y:.15+r()*.35,c:1});pts.push({x:.55+r()*.3,y:.5+r()*.35,c:-1})}trained=false;draw()}
+ function train(){let W=[0,0,0];const lam=.0004;let it=0;const total=24000;
+  const anim=()=>{for(let k=0;k<1200&&it<total;k++){it++;const eta=1/(lam*it);const p=pts[Math.floor(Math.random()*pts.length)];const x=[p.x-.5,p.y-.5,1];const m=p.c*(W[0]*x[0]+W[1]*x[1]+W[2]*x[2]);W=W.map(v=>v*(1-eta*lam));if(m<1)W=W.map((v,i)=>v+eta*p.c*x[i]);const n=Math.hypot(...W),cap=1/Math.sqrt(lam);if(n>cap)W=W.map(v=>v*cap/n)}
+   w=[W[0],W[1]];b=W[2]-(W[0]+W[1])*.5;trained=true;draw();if(it<total)RM?anim():requestAnimationFrame(anim)};anim()}
+ function draw(){c.fillStyle=C.scr;c.fillRect(0,0,520,360);c.strokeStyle=C.line;for(let i=1;i<10;i++){c.beginPath();c.moveTo(i*52,0);c.lineTo(i*52,360);c.stroke();c.beginPath();c.moveTo(0,i*36);c.lineTo(520,i*36);c.stroke()}
+  const X=x=>x*520,Y=y=>y*360;let sv=0,ok=0;
+  if(trained&&Math.abs(w[1])>1e-6){const line=(off,dash,col,lw)=>{c.setLineDash(dash);c.strokeStyle=col;c.lineWidth=lw;c.beginPath();const y0=(off-b-w[0]*0)/w[1],y1=(off-b-w[0]*1)/w[1];c.moveTo(0,Y(y0));c.lineTo(520,Y(y1));c.stroke();c.setLineDash([])};
+   c.fillStyle='rgba(127,178,255,.06)';line(0,[],C.txt,2);line(1,[6,5],C.mut,1);line(-1,[6,5],C.mut,1)}
+  pts.forEach(p=>{const f=w[0]*p.x+w[1]*p.y+b;if(trained){if(Math.sign(f)===p.c)ok++;if(Math.abs(p.c*f)<=1.15)sv++}
+   c.fillStyle=p.c>0?C.cool:C.hot;if(p.c>0){c.beginPath();c.arc(X(p.x),Y(p.y),6,0,7);c.fill()}else c.fillRect(X(p.x)-5.5,Y(p.y)-5.5,11,11);
+   if(trained&&Math.abs(p.c*f)<=1.15){c.strokeStyle=C.txt;c.lineWidth=1.2;c.beginPath();c.arc(X(p.x),Y(p.y),11,0,7);c.stroke()}});
+  $('#svmAcc').textContent=trained?Math.round(ok/pts.length*100)+'%':'—';$('#svmSv').textContent=trained?sv:'—'}
+ cv.addEventListener('click',e=>{const r=cv.getBoundingClientRect();pts.push({x:(e.clientX-r.left)/r.width,y:(e.clientY-r.top)/r.height,c:cls});draw()});
+ seg('#svmCls',d=>cls=+d.c);$('#svmTrain').onclick=train;$('#svmReset').onclick=seed;seed()})();
+
+/* ============ FIG 5.2 EM ============ */
+(function(){const cv=$('#emC'),c=cv.getContext('2d');let X=[],K=[],it=0,timer;
+ const N=(x,m,v)=>Math.exp(-((x-m)**2)/(2*v))/Math.sqrt(2*Math.PI*v);
+ function reset(){const r=rng(Math.floor(Math.random()*1e6));const gauss=()=>{let u=0;for(let i=0;i<6;i++)u+=r();return u-3};X=[];const tm=[25+r()*10,55+r()*10,78+r()*8];tm.forEach((m,i)=>{for(let k=0;k<70;k++)X.push(m+gauss()*(3+i*1.5))});
+  K=[{m:20,v:120,p:1/3},{m:50,v:120,p:1/3},{m:80,v:120,p:1/3}];it=0;draw()}
+ function step(){const R=X.map(x=>{const a=K.map(k=>k.p*N(x,k.m,k.v));const s=a.reduce((p,q)=>p+q,0)||1e-12;return a.map(q=>q/s)});
+  K=K.map((k,j)=>{const nj=R.reduce((s,r)=>s+r[j],0)+1e-9;const m=R.reduce((s,r,i)=>s+r[j]*X[i],0)/nj;const v=Math.max(2,R.reduce((s,r,i)=>s+r[j]*(X[i]-m)**2,0)/nj);return{m,v,p:nj/X.length}});it++;draw()}
+ function ll(){return X.reduce((s,x)=>s+Math.log(K.reduce((p,k)=>p+k.p*N(x,k.m,k.v),0)+1e-300),0)}
+ function draw(){c.fillStyle=C.scr;c.fillRect(0,0,600,280);const bins=new Array(50).fill(0);X.forEach(x=>{const b=Math.max(0,Math.min(49,Math.floor(x/2)));bins[b]++});const mb=Math.max(...bins);
+  bins.forEach((n,i)=>{c.fillStyle='#2E2D28';c.fillRect(20+i*11.2,240-n/mb*180,10,n/mb*180)});const cols=[C.hot,C.cool,C.ok];
+  K.forEach((k,j)=>{c.strokeStyle=cols[j];c.lineWidth=2;c.beginPath();for(let x=0;x<=100;x+=.5){const y=240-k.p*N(x,k.m,k.v)*2*X.length/mb*180;const px=20+x/100*560;x?c.lineTo(px,y):c.moveTo(px,y)}c.stroke();c.fillStyle=cols[j];c.fillRect(20+k.m/100*560-1,244,2,8)});
+  c.fillStyle=C.mut;c.font='11px IBM Plex Mono, monospace';c.fillText('FEATURE VALUE →',490,270);c.fillText('3 GAUSSIAN COMPONENTS',20,20);$('#emIt').textContent=it;$('#emLL').textContent=ll().toFixed(0)}
+ $('#emStep').onclick=step;$('#emRun').onclick=()=>{clearInterval(timer);let n=0;timer=setInterval(()=>{step();if(++n>=25)clearInterval(timer)},RM?0:140)};$('#emReset').onclick=()=>{clearInterval(timer);reset()};reset()})();
+
+/* ============ FIG 5.3 LOCATION ============ */
+(function(){const s=$('#locSvg');let L=0;const T=['Sensor, template and matcher all on the user’s device. Fast and offline, but malware on the host can tamper with the result or steal the template.','The device sends encrypted features to a central server that holds all templates and decides. Supports 1:N search; the database is a high-value breach target.','The template never leaves the smart card. The reader sends live features to the card, the card’s chip matches and returns only yes/no. Best privacy; limited card memory and CPU.'];
+ const N={host:[60,130,'HOST PC / PHONE'],srv:[480,50,'AUTH SERVER'],card:[480,210,'SMART CARD'],sen:[60,240,'SENSOR']};
+ function draw(){s.innerHTML='';const lk={0:'host',1:'srv',2:'card'}[L];
+  const links=[['sen','host'],['host','srv'],['host','card']];links.forEach(([a,b],i)=>{const A=N[a],B=N[b];const act=(i===0)||(L===1&&b==='srv')||(L===2&&b==='card');
+   const p=el('path',{id:'lk'+i,d:`M${A[0]+70} ${A[1]+20}L${B[0]} ${B[1]+20}`,stroke:act?C.mut:C.line,'stroke-width':1.5,'stroke-dasharray':'4 5',fill:'none'},s);
+   if(act&&!RM){el('animate',{attributeName:'stroke-dashoffset',from:18,to:0,dur:'.9s',repeatCount:'indefinite'},p);const dot=el('circle',{r:4.5,fill:C.hot},s);const am=el('animateMotion',{dur:'1.6s',repeatCount:'indefinite',begin:(i*.4)+'s'},dot);el('mpath',{href:'#lk'+i},am)}});
+  for(const k in N){const[x,y,l]=N[k];const on=k===lk;el('rect',{x,y,width:140,height:40,fill:on?'#2A1A12':'#1C1C19',stroke:on?C.hot:C.mut,'stroke-width':on?2:1},s);const t=el('text',{x:x+70,y:y+25,'text-anchor':'middle',fill:C.txt,'font-family':'IBM Plex Mono, monospace','font-size':11},s);t.textContent=l;
+   if(on){const tt=el('text',{x:x+70,y:y+58,'text-anchor':'middle',fill:C.hot,'font-family':'IBM Plex Mono, monospace','font-size':10},s);tt.textContent='TEMPLATE + MATCHER';const lock=el('g',{transform:`translate(${x+120} ${y-14})`},s);el('rect',{x:0,y:6,width:16,height:12,fill:C.hot},lock);el('path',{d:'M3 6v-3a5 5 0 0 1 10 0v3',fill:'none',stroke:C.hot,'stroke-width':2},lock)}}
+  const t=el('text',{x:230,y:290,'text-anchor':'middle',fill:C.mut,'font-family':'IBM Plex Mono, monospace','font-size':10},s);t.textContent=L===2?'only YES / NO leaves the card':L===1?'encrypted features travel to the server':'nothing leaves the device';
+  $('#locTxt').textContent=T[L]}
+ seg('#locSel',d=>{L=+d.l;draw()});draw()})();
+
+/* ============ FIG 5.4 MFA ============ */
+(function(){const s=$('#mfaSvg');let on=new Set(['finger']);const F={pin:'know',card:'have',finger:'are',face:'are'};const lab={pin:'PIN',card:'CARD',finger:'FINGER',face:'FACE'};
+ const w=$('#mfaSel');w.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const k=b.dataset.k;on.has(k)?on.delete(k):on.add(k);b.classList.toggle('on');draw()});
+ function draw(){s.innerHTML='';const cats=['know','have','are'];cats.forEach((c,i)=>{const x=40+i*190;const got=[...on].filter(k=>F[k]===c);el('rect',{x,y:30,width:150,height:110,fill:got.length?'#1C1C19':'none',stroke:got.length?C.ok:C.line,'stroke-width':got.length?2:1},s);
+   const t=el('text',{x:x+75,y:54,'text-anchor':'middle',fill:C.mut,'font-family':'IBM Plex Mono, monospace','font-size':11},s);t.textContent='SOMETHING YOU '+c.toUpperCase();
+   got.forEach((k,j)=>{const tt=el('text',{x:x+75,y:86+j*22,'text-anchor':'middle',fill:C.txt,'font-family':'IBM Plex Mono, monospace','font-size':14},s);tt.textContent=lab[k];if(!RM)tt.animate([{opacity:0,transform:'translateY(6px)'},{opacity:1,transform:'none'}],{duration:300})})});
+  const n=new Set([...on].map(k=>F[k])).size;const bio=[...on].filter(k=>F[k]==='are').length;
+  const v=$('#mfaV');v.textContent=n>=2?'ACCESS GRANTED · '+n+'-FACTOR':n===1?'SINGLE FACTOR':'NO CREDENTIAL';v.className='verdict '+(n>=2?'acc':'rej');
+  $('#mfaTxt').textContent=bio>=2&&n===1?'Finger + face is multibiometric, but still one factor (both “are”).':n>=2?'Different categories combined: an attacker must defeat each one separately.':'Add a credential from a different category.';
+  const t=el('text',{x:300,y:190,'text-anchor':'middle',fill:n>=2?C.ok:C.hot,'font-family':'IBM Plex Mono, monospace','font-size':13},s);t.textContent=n+' distinct factor'+(n===1?'':'s')+(bio>=2?' · multibiometric':'')}
+ draw()})();
+
+/* ============ QUIZ ============ */
+(function(){const Q=[['Which error is a security failure?',['FRR','FAR','FTE'],1],['Phone unlock with your own finger is…',['Identification (1:N)','Verification (1:1)','Fusion'],1],['Daugman’s rubber-sheet model makes iris codes independent of…',['Eye colour','Pupil size','Eyelashes only'],1],['A bifurcation is…',['A ridge that ends','A ridge that splits in two','The centre of a whorl'],1],['Gabor filters in fingerprint processing are used for…',['Enhancement along ridge orientation','Encryption','Classification only'],0],['Eigenfaces are based on…',['PCA','SVM','EM'],0],['Which fusion level is most common in practice?',['Sensor','Score','Decision only'],1],['The EER is where…',['FAR = FRR','FTE = 0','Score = threshold'],0],['In match-on-card, what leaves the card?',['The template','Only the yes/no result','The raw image'],1],['EM is commonly used to train…',['Gaussian Mixture Models for speaker recognition','Smart card firmware','Gabor filters'],0],['Finger + face together is…',['Two-factor','Multibiometric, single factor','Three-factor'],1],['RF imaging fingerprint sensors read…',['The live layer beneath the skin surface','Sweat pores only','Surface heat'],0]];
+ let got=0,done=0;const w=$('#qz');Q.forEach(q=>{const d=document.createElement('div');d.className='q';const p=document.createElement('p');p.textContent=q[0];d.appendChild(p);q[1].forEach((o,k)=>{const b=document.createElement('button');b.textContent=o;b.onclick=()=>{if(d.dataset.a)return;d.dataset.a=1;done++;if(k===q[2])got++;[...d.querySelectorAll('button')].forEach((x,n)=>{if(n===q[2])x.classList.add('right');else if(n===k)x.classList.add('wrong')});$('#qScore').textContent='Score '+got+' / '+done};d.appendChild(b)});w.appendChild(d)})})();
+
+/* ============ UNIT QUIZZES ============ */
+(function(){const UQ={"u1": [["Biometrics are which authentication factor?", ["Something you know", "Something you have", "Something you are"], 2], ["A face captured by CCTV without the person acting is…", ["Active biometrics", "Passive biometrics", "Two-factor"], 1], ["What is stored at enrollment?", ["The raw image only", "A compact feature template", "The user’s password"], 1], ["“Who is this person?” is…", ["Verification (1:1)", "Identification (1:N)", "Enrollment"], 1], ["Which property asks “Does it stay the same over time?”", ["Permanence", "Uniqueness", "Collectability"], 0]], "u2": [["A ridge that splits into two is a…", ["Ridge ending", "Bifurcation", "Delta"], 1], ["Which classification system came from British India?", ["Henry system", "Daugman system", "Galton–Bose code"], 0], ["Gabor filters are used in which stage?", ["Enhancement", "Matching", "Classification"], 0], ["RF imaging sensors read…", ["Surface sweat", "The live skin layer beneath the surface", "Fingerprint heat"], 1], ["The crossing-number method finds…", ["Minutiae on a thinned skeleton", "Pattern class", "Sensor quality"], 0]], "u3": [["Eigenfaces are based on…", ["LDA", "PCA", "SVM"], 1], ["Fisherfaces try to…", ["Maximise difference between people", "Remove all lighting", "Store raw images"], 0], ["Matching landmark points between two images is called…", ["Correspondence maps", "Rubber-sheet model", "Score fusion"], 0], ["Hand geometry is best suited for…", ["Large-scale 1:N identification", "Access control and attendance", "Forensics"], 1], ["An adaptive classifier…", ["Updates the template as the user slowly changes", "Rejects all new samples", "Encrypts the template"], 0]], "u4": [["Voice systems commonly extract which features?", ["Minutiae", "MFCC", "IrisCode"], 1], ["Which fusion level is most common in practice?", ["Sensor", "Score", "Rank"], 1], ["FAR measures…", ["Genuine users rejected", "Impostors accepted", "Users who cannot enrol"], 1], ["EER is the point where…", ["FAR = FRR", "FTE = 0", "Threshold = 100"], 0], ["A raw fingerprint image is roughly how much larger than a minutiae template?", ["About the same", "About 100–400 times", "About 2 times"], 1]], "u5": [["An SVM chooses the boundary with…", ["The widest margin", "The most support vectors", "The lowest bias"], 0], ["EM is used to fit…", ["Gaussian Mixture Models", "Smart cards", "Gabor filters"], 0], ["In match-on-card, what leaves the card?", ["The template", "Only the yes/no result", "The raw image"], 1], ["Which matching location is a big breach target?", ["Local host", "Authentication server", "Match on card"], 1], ["PIN + fingerprint is…", ["Multibiometric", "Two-factor", "Single factor"], 1]]};
+ $$('[data-quiz]').forEach(w=>{const u=w.dataset.quiz;let got=0,done=0;UQ[u].forEach(q=>{const d=document.createElement('div');d.className='q';const p=document.createElement('p');p.textContent=q[0];d.appendChild(p);
+  q[1].forEach((o,k)=>{const b=document.createElement('button');b.textContent=o;b.onclick=()=>{if(d.dataset.a)return;d.dataset.a=1;done++;if(k===q[2])got++;[...d.querySelectorAll('button')].forEach((x,n)=>{if(n===q[2])x.classList.add('right');else if(n===k)x.classList.add('wrong')});
+   $('#qs_'+u).textContent='Score '+got+' / 5'+(done===5?(got===5?' · perfect':got>=3?' · good, review the misses':' · revise this unit'):'')};d.appendChild(b)});w.appendChild(d)})})})();
+</script>
+</body>
+</html>
